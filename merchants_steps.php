@@ -11,7 +11,7 @@ if ((DEBUG_MODE & 2) != 2) {
 require ROOT_PATH . '/includes/lib_area.php';
 $cache_id = sprintf('%X', crc32($_SESSION['user_rank'] . '-' . $_CFG['lang']));
 $step = (isset($_REQUEST['step']) ? htmlspecialchars(trim($_REQUEST['step'])) : '');
-$sid = (isset($_REQUEST['sid']) ? intval($_REQUEST['sid']) : 0);//入住步骤状态码
+$sid = (isset($_REQUEST['sid']) ? intval($_REQUEST['sid']) : 1);//入住步骤状态码
 $pid_key = (isset($_REQUEST['pid_key']) ? intval($_REQUEST['pid_key']) : 0);
 $ec_shop_bid = (isset($_REQUEST['ec_shop_bid']) ? intval($_REQUEST['ec_shop_bid']) : 0);
 $degree = isset($_REQUEST['deg']) ? $_REQUEST['deg']:"";
@@ -19,8 +19,8 @@ $brandView = (isset($_REQUEST['brandView']) ? htmlspecialchars(trim($_REQUEST['b
 $user_id = $_SESSION['user_id'];
 $smarty->assign('helps', get_shop_help());
 
-if (empty($sid)) {//默认为空时入住步骤为0
-	$sid = 0;
+if (empty($sid)) {//默认为空时入住步骤为1
+	$sid = 1;
 }
 
 if ($step == 'addChildCate') {
@@ -293,14 +293,12 @@ if (!$smarty->is_cached('merchants_steps.dwt')) {
 			$smarty->assign('steps_title', $steps_title);
 		}
 	}
-	else if($sid == 0 && isset($_REQUEST['deg'])){//入住步骤为0时选择导游入驻或供应商入驻
+
+	else if ($sid == 1) {//入驻步骤为1时获取后台“申请入驻流程”的第一步入驻需知
 	    if(empty($degree)||($degree != 'guide' && $degree != 'supplier')){//身份为空或不为导游、供应商则提示
 	        show_message($_LANG['steps_empty_deg']);
 	        exit();
 	    }
-	    
-	}
-	else if ($sid == 1) {//入驻步骤为1时获取后台“申请入驻流程”的第一步入驻需知
 	    var_dump($degree);
 		$merchants_steps = get_root_directory_steps($sid);//获取相应步骤1的入驻协议
 		$smarty->assign('steps', $merchants_steps);

@@ -197,7 +197,7 @@
                         	<div class="section_header">商城管理</div>
                             <div class="section_body">
                             	<dl>
-                                	<dt>商城首页：</dt>
+                                	<dt>平台首页：</dt>
                                     <dd><a href="{$ecs_url}" target="_blank">{$ecs_url}</a></dd>
                                 </dl>
                                 <dl>
@@ -205,7 +205,7 @@
                                     <dd><a href="{$ecs_url}admin" target="_blank">{$ecs_url}admin</a></dd>
                                 </dl>
                                 <dl>
-                                	<dt>商家后台：</dt>
+                                	<dt>入驻后台：</dt>
                                     <dd><a href="{$ecs_url}seller" target="_blank">{$ecs_url}seller</a></dd>
                                 </dl>
                                 <dl>
@@ -231,16 +231,13 @@
                                 </dl>
                                 <dl>
                                 	<dt>问答反馈：</dt>
-                                    <dd><a href="http://wenda.ecmoban.com" target="_blank">http://wenda.ecmoban.com</a></dd>
+                                    <dd><a href="http://www.lvtoto.com" target="_blank">http://www.lvtoto.com</a></dd>
                                 </dl>
                                 <dl>
                                 	<dt>官方网站：</dt>
-                                    <dd><a href="http://www.ecmoban.com" target="_blank">http://www.ecmoban.com</a></dd>
+                                    <dd><a href="http://www.lvtoto.com" target="_blank">hhttp://www.lvtoto.com</a></dd>
                                 </dl>
-                                <dl>
-                                	<dt>大商创官网：</dt>
-                                    <dd><a href="http://www.dscmall.cn" target="_blank">http://www.dscmall.cn</a></dd>
-                                </dl>
+                                
                             </div>
                         </div>
                     </div>

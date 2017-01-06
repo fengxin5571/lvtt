@@ -390,7 +390,7 @@ if ($action == 'register') {
 	$smarty->assign('sms_register', $_CFG['sms_signin']);
 	$smarty->display('user_passport.dwt');
 }
-else if ($action == 'act_register') {
+else if ($action == 'act_register') {//处理用户注册
 	if ($_CFG['shop_reg_closed']) {
 		$smarty->assign('action', 'register');
 		$smarty->display('user_passport.dwt');
@@ -470,11 +470,11 @@ else if ($action == 'act_register') {
 			}
 
 			$ucdata = (empty($user->ucdata) ? '' : $user->ucdata);
-			if (!$register_mode && ($_CFG['user_login_register'] == 1)) {
-				header('Location:user.php?act=user_email_verify');
+			if (!$register_mode && ($_CFG['user_login_register'] == 1)) {//不是邮箱验证并且后台开会员登录/注册邮箱验证
+				header('Location:user.php?act=user_email_verify');//跳转到邮箱验证
 			}
 			else {
-				header('Location:user.php');
+				header('Location:merchants.php?act=merchants_identity');//注册成功后跳出身份选择界面
 			}
 		}
 		else {
@@ -482,6 +482,7 @@ else if ($action == 'act_register') {
 		}
 	}
 }
+
 else if ($action == 'user_email_verify') {
 	assign_template();
 
@@ -526,13 +527,13 @@ else if ($action == 'email_send_succeed') {
 	$email = (isset($_REQUEST['email']) ? addslashes(trim($_REQUEST['email'])) : '');
 	$sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . ' SET is_validated = 1, email = \'' . $email . '\' WHERE user_id = \'' . $user_id . '\'';
 	$GLOBALS['db']->query($sql);
-	ecs_header('Location: ' . $ecs->url() . 'user.php');
+	ecs_header('Location: ' . $ecs->url() . 'merchants.php?act=merchants_identity');
 }
-else if ($action == 'checkd_email_send_code') {
+else if ($action == 'checkd_email_send_code') { //检查邮箱验证码是否正确
 	include_once 'includes/cls_json.php';
 	$result = array('error' => 0);
 	$code = (isset($_REQUEST['send_code']) ? intval($_REQUEST['send_code']) : '');
-
+    file_put_contents("f://error.txt", $_SESSION['user_email_verify'] );
 	if ($_SESSION['user_email_verify'] == $code) {
 		$result['error'] = '1';
 	}
@@ -1221,7 +1222,7 @@ else if ($action == 'captchas_pass') {
 		}
 	}
 }
-else if ($action == 'act_login') {
+else if ($action == 'act_login') {//处理用户登录
 	include_once 'includes/cls_json.php';
 	$_POST = get_request_filter($_POST, 1);
 	$username = (isset($_POST['username']) ? addslashes(trim($_POST['username'])) : '');

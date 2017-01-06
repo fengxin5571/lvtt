@@ -96,6 +96,7 @@ $_LANG['steps_empty_deg'] = '您尚未选择入驻身份，无法申请入驻';
 $_LANG['UserLogin'] = '去登陆';
 $_LANG['I_guide'] = '我是导游';
 $_LANG['I_supplier'] = '我是供应商';
+$_LANG['I_user'] = '我是游客';
 
 $_LANG['please_select'] = '请选择';
 $_LANG['country'] = '国家';

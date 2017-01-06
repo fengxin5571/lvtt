@@ -1,1 +1,0 @@
-<div class="ecsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i><?php if ($this->_var['ur_here']): ?><?php echo $this->_var['ur_here']; ?><?php else: ?>首页<?php endif; ?></div>

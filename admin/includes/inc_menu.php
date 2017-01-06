@@ -135,7 +135,7 @@ $modules['09_crowdfunding']['04_topic_list'] = 'zc_topic.php?act=list';
 $menu_top['menuplatform'] = '05_banner,06_stats,07_content,08_members,10_priv_admin,01_system,12_template,16_email_manage,13_backup';
 $menu_top['menushopping'] = '02_cat_and_goods,03_promotion,04_order,09_crowdfunding,15_rec,17_merchants,18_batch_manage,19_merchants_store,02_goods_storage,10_offline_store';
 $menu_top['ectouch'] = '20_ectouch,22_wechat,23_drp';
-$menu_top['menuinformation'] = '21_cloud';
+//$menu_top['menuinformation'] = '21_cloud';
 $modules['20_ectouch']['01_oauth_admin'] = '../mobile/index.php?r=oauth/admin';
 $modules['20_ectouch']['02_touch_nav_admin'] = 'touch_navigator.php?act=list';
 $modules['20_ectouch']['03_touch_ads'] = 'touch_ads.php?act=list';

@@ -62,7 +62,7 @@
                     </div>
                     <div class="ui-form-item">
                     	<input name="act" type="hidden" value="email_send_succeed" />
-                        <input type="submit" value="确定" class="ui-button ui-button-lorange">
+                        <input type="button" value="确定" class="ui-button ui-button-lorange">
                     </div>
                 </form>
             </div>
@@ -100,6 +100,7 @@ $(".ui-button-lorange").click(function(){
     if(msg.length > 0){
         var divId = 'email_code';
         dialogPrompt(divId,msg);
+        return false;
     }else{
         Ajax.call( 'user.php?act=checkd_email_send_code', 'send_code='+send_code, checkd_email_send_code , 'GET', 'JSON');
     }
@@ -108,11 +109,15 @@ $(".ui-button-lorange").click(function(){
 
 function checkd_email_send_code(result){
     if(result.error == 1){
+    	var msg = '验证成功';
+        var divId = 'email_code';
+    	 dialogPrompt(divId,msg);
          $("#checkd_email_code").submit();
     }else{
         var msg = '验证码不正确';
         var divId = 'email_code';
         dialogPrompt(divId,msg);
+        
     }
 }
 
@@ -131,6 +136,10 @@ function email_callback(result){
 	if ( result.replace(/\r\n/g,'') == 'ok' )
   	{
 		alert('邮箱已发送');
+	}
+	else if( result.replace(/\r\n/g,'') == 'false' )
+	{
+		alert('邮箱发送失败');
 	}
 }
 </script>   

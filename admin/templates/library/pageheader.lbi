@@ -2,7 +2,7 @@
 	<!-- 颜色选择层 bylu -->
 	<div class="bgSelector"></div>
 	<div class="admin-logo">
-    	<a href="javascript:void(0);" data-url="index.php?act=main" data-param="index|main" target="workspace"><img src="images/admin-logo.png" /></a>
+    	<a href="javascript:void(0);" data-url="index.php?act=main" data-param="index|main" target="workspace"><img src="images/admin-logo.png" width='174' height="48"/></a>
     	<div class="foldsider"><i class="icon icon-indent-left"></i></div>
     </div>
 	<div class="module-menu">
@@ -59,7 +59,7 @@
 				</div>
 			</li>
 			<i></i>
-			<li><a href="../" target="_blank" class="home" title="新窗口打开商城首页">&nbsp;</a></li>
+			<li><a href="../" target="_blank" class="home" title="新窗口打开大平台首页">&nbsp;</a></li>
 			<i></i>
 			<li><a href="javascript:void(0);" class="sitemap" title="查看全部管理菜单">&nbsp;</a></li>
 			<i></i>
@@ -81,10 +81,10 @@
 			<span><a nctype="map_off" onclick="$('#allMenu').hide();" href="JavaScript:void(0);">X</a></span></div>
 		<div class="content">
 			<ul class="admincp-map-nav">
-				<li class=""><a href="javascript:void(0);" data-param="map-system">平台</a></li>
+				<li class=""><a href="javascript:void(0);" data-param="map-system">自平台</a></li>
 				<li class="selected"><a href="javascript:void(0);" data-param="map-shop">商城</a></li>
-				<li class=""><a href="javascript:void(0);" data-param="map-mobile">手机端</a></li>
-                <li class=""><a href="javascript:void(0);" data-param="map-cms">资源</a></li>
+				<li class=""><a href="javascript:void(0);" data-param="map-mobile">移动端</a></li>
+                <!--<li class=""><a href="javascript:void(0);" data-param="map-cms">资源</a></li> -->
 			</ul>
 			<div class="admincp-map-div" data-param="map-system" style="display: none;">
                 {foreach from=$nav_top.menuplatform.children item=vo}

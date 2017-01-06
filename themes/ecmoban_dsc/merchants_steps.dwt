@@ -47,26 +47,8 @@
 
 <div class="merSteps">
 	<div class="w1200">
-	{if $sid eq 0 }
-	<div class="panel">
-		<div class="panel-nav">
-			
-			<div class="progress-item ongoing">
-				<div class="progress-desc">入驻选择</div>
-                <div class="arrow-background"></div>
-                <div class="arrow-foreground"></div>
-			</div>
-		</div>
-		
-		<div class="panel-content">
-			<div class="bg-top"></div>
-			<div class="bg-warp">
-				<a href="merchants_steps.php?deg=guide&sid=1">{$lang.I_guide}</a>
-				<a href="merchants_steps.php?deg=supplierz&sid=1">{$lang.I_supplier}</a>
-			</div>
-		</div>
-	</div>
-	{elseif $sid eq 1 }
+	
+	{if $sid eq 1 }
     <form id="stepForm" action="merchants_steps_action.php" method="post" name="stepForm">
     <div class="panel">
         <div class="panel-nav">

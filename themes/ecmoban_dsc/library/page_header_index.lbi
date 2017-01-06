@@ -77,8 +77,8 @@
         <!-- @Author guan 搜索栏提示 end -->
     </div>
     <div class="site-commitment">
-        <div class="site-commitment-front"><a style="background:url({$site_commitment}) -6px 0px no-repeat;" href="#" target="_blank"></a></div>
-        <div class="site-commitment-back"><a style="background:url({$site_commitment}) -6px 0px no-repeat;" href="#" target="_blank"></a></div>
+        <div class="site-commitment-front"><a style="" href="#" target="_blank"></a></div>
+        <div class="site-commitment-back"><a style="/*background:url({$site_commitment}) -6px 0px no-repeat;*/" href="#" target="_blank"></a></div>
     </div>
 </div>
 <div class="nav">

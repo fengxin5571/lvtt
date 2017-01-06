@@ -27,7 +27,7 @@ error_reporting(30719);
 if (__FILE__ == '') {
 	exit('Fatal error code: 0');
 }
-
+/* 取得当前ecshop所在的根目录 */
 define('ROOT_PATH', str_replace('includes/init.php', '', str_replace('\\', '/', __FILE__)));
 $GLOBALS['_beginTime'] = microtime(true);
 define('MEMORY_LIMIT_ON', function_exists('memory_get_usage'));
@@ -35,7 +35,7 @@ define('MEMORY_LIMIT_ON', function_exists('memory_get_usage'));
 if (MEMORY_LIMIT_ON) {
 	$GLOBALS['_startUseMems'] = memory_get_usage();
 }
-
+/* 初始化设置 */
 @ini_set('memory_limit', '512M');
 @ini_set('session.cache_expire', 180);
 @ini_set('session.use_trans_sid', 0);
@@ -90,7 +90,7 @@ if (!file_exists(ROOT_PATH . 'data/install.lock.php') && !defined('NO_CHECK_INST
 	header("Location: ./install/index.php\n");
 	exit();
 }
-
+/* 对用户传入的变量进行转义操作。*/
 if (!get_magic_quotes_gpc()) {
 	if (!empty($_GET)) {
 		$_GET = addslashes_deep($_GET);
@@ -103,14 +103,16 @@ if (!get_magic_quotes_gpc()) {
 	$_COOKIE = addslashes_deep($_COOKIE);
 	$_REQUEST = addslashes_deep($_REQUEST);
 }
-
+/* 创建 ECSHOP 对象 */
 $ecs = new ECS($db_name, $prefix);
 define('DATA_DIR', $ecs->data_dir());
 define('IMAGE_DIR', $ecs->image_dir());
+/* 初始化数据库类 */
 require ROOT_PATH . 'includes/cls_mysql.php';
 $db = new cls_mysql($db_host, $db_user, $db_pass, $db_name);
 $db->set_disable_cache_tables(array($ecs->table('sessions'), $ecs->table('sessions_data'), $ecs->table('cart')));
 $db_host = $db_user = $db_pass = $db_name = NULL;
+/* 创建错误处理对象 */
 $err = new ecs_error('message.dwt');
 $sel_config = get_shop_config_val('open_memcached');
 
@@ -119,20 +121,22 @@ if ($sel_config['open_memcached'] == 1) {
 	require ROOT_PATH . 'data/cache_config.php';
 	$cache = new cls_cache($cache_config);
 }
-
+/* 载入系统参数 */
 $_CFG = load_config();
+/* 载入短信接口配置 */
 require ROOT_PATH . 'data/sms_config.php';
+/* 载入语言文件 */
 require ROOT_PATH . 'languages/' . $_CFG['lang'] . '/common.php';
-
+/* 商店关闭了，输出关闭的消息 */
 if ($_CFG['shop_closed'] == 1) {
 	header('Content-type: text/html; charset=' . EC_CHARSET);
 	exit($_CFG['close_comment']);
 }
-
+/* 如果是蜘蛛的访问，那么默认为访客方式，并且不记录到日志中 */
 if (is_spider()) {
 	if (!defined('INIT_NO_USERS')) {
 		define('INIT_NO_USERS', true);
-
+		/* 整合UC后，如果是蜘蛛访问，初始化UC需要的常量 */
 		if ($_CFG['integrate_code'] == 'ucenter') {
 			$user = &init_users();
 		}
@@ -147,6 +151,7 @@ if (is_spider()) {
 }
 
 if (!defined('INIT_NO_USERS')) {
+    /* 初始化session */
 	if ($GLOBALS['_CFG']['open_memcached'] == 1) {
 		$sessionDriver = 'cls_session_memcached';
 	}
@@ -166,6 +171,7 @@ if (isset($_SERVER['PHP_SELF'])) {
 if (!defined('INIT_NO_SMARTY')) {
 	header('Cache-control: private');
 	header('Content-type: text/html; charset=' . EC_CHARSET);
+	 /* 创建 Smarty 对象。*/
 	require ROOT_PATH . 'includes/cls_template.php';
 	$smarty = new cls_template();
 	$smarty->cache_lifetime = $_CFG['cache_time'];
@@ -198,6 +204,7 @@ if (!defined('INIT_NO_SMARTY')) {
 }
 
 if (!defined('INIT_NO_USERS')) {
+	/* 会员信息 */
 	$user = &init_users();
 
 	if (!isset($_SESSION['user_id'])) {
