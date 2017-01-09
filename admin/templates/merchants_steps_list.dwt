@@ -40,7 +40,8 @@
                                 	<th width="3%" class="sign"><div class="tDiv"><input type="checkbox" name="all_list" class="checkbox" id="all_list" /><label for="all_list" class="checkbox_stars"></label></div></th>
                                     <th width="5%"><div class="tDiv">{$lang.record_id}</div></th>
                                     <th width="25%"><div class="tDiv">{$lang.steps_process_title}</div></th>
-                                    <th width="25%"><div class="tDiv">{$lang.steps_process}</div></th>
+                                    <th width="15%"><div class="tDiv">{$lang.steps_process}</div></th>
+                                    <th width="10%"><div class="tDiv">{$lang.from_identity}</div></th>
                                     <th width="13%"><div class="tDiv">{$lang.steps_sort}</div></th>
                                     <th width="13%"><div class="tDiv">{$lang.is_show}</div></th>
                                     <th width="15%" class="handle">{$lang.handler}</th>
@@ -65,9 +66,19 @@
                                             {/if}
                                         </div>
                                     </td>
+                                    <td>
+                                    	<div class="tDiv"> 
+                                    	{if $process.identity eq 0}
+                                    	{$lang.lable_supplier}
+                                    	{elseif $process.identity eq 1}
+                                    	{$lang.lable_guide}
+                                    	
+                                    	{/if}
+                                    	</div>
+                                    </td>
                                     <td><div class="tDiv"><input name="sort_order" class="text w40" value="{$process.steps_sort}" onkeyup="listTable.editInput(this, 'edit_sort_order',{$process.id} )" type="text"></div></td>
                                     <td>
-									{if $process.id eq 1 || $process.id eq 5 || $process.id eq 7 || $process.id eq 9 || $process.id eq 4}
+									{if $process.id eq 1 || $process.id eq 5 || $process.id eq 7 || $process.id eq 9 || $process.id eq 4 || $process.id eq 12}
                                     	<div class="tDiv"><img src="images/yes.png" class="pl3" /></div>
 									{else}
                                     	<div class="tDiv">
