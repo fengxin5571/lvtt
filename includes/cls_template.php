@@ -1,5 +1,6 @@
 <?php
 //zend by QQ:2172298892
+//error_reporting(1);
 class cls_template
 {
 	public $template_dir = '';
@@ -133,12 +134,12 @@ class cls_template
 							$hash_dir = $this->cache_dir . '/' . substr(md5($cachename), 0, 1);
 
 							if (!is_dir($hash_dir)) {
-								mkdir($hash_dir);
+								//mkdir($hash_dir);
 							}
 
-							if (file_put_contents($hash_dir . '/' . $cachename . '.php', '<?php exit;?>' . $data . $out, LOCK_EX) === false) {
+							/*if (file_put_contents($hash_dir . '/' . $cachename . '.php', '<?php exit;?>' . $data . $out, LOCK_EX) === false) {
 								trigger_error('can\'t write:' . $hash_dir . '/' . $cachename . '.php');
-							}
+							}*/
 						}
 
 						$this->template = array();
@@ -198,9 +199,9 @@ class cls_template
 				if ($GLOBALS['_CFG']['open_memcached'] == 1) {
 					$GLOBALS['cache']->set('compiled_' . $name, $source);
 				}
-				else if (file_put_contents($name, $source, LOCK_EX) === false) {
+				/*else if (file_put_contents($name, $source, LOCK_EX) === false) {
 					trigger_error('can\'t write:' . $name);
-				}
+				}*/
 			}
 
 			$source = $this->_eval($source);

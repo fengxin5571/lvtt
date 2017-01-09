@@ -1,6 +1,6 @@
 <?php
 // database host
-$db_host   = "localhost:3306";
+$db_host   = "192.168.0.105:3306";
 
 // database name
 $db_name   = "lvtt_database";
