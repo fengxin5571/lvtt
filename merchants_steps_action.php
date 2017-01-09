@@ -15,13 +15,14 @@ $agreement = (isset($_REQUEST['agreement']) ? intval($_REQUEST['agreement']) : 0
 $pid_key = (isset($_REQUEST['pid_key']) ? intval($_REQUEST['pid_key']) : 0);
 $brandView = (isset($_REQUEST['brandView']) ? htmlspecialchars(trim($_REQUEST['brandView'])) : '');
 $brandId = (isset($_REQUEST['brandId']) ? intval($_REQUEST['brandId']) : 0);
+$degree = isset($_REQUEST['deg']) ? $_REQUEST['deg']:"";
 $search_brandType = (isset($_REQUEST['search_brandType']) ? htmlspecialchars($_REQUEST['search_brandType']) : '');
 $searchBrandZhInput = (isset($_REQUEST['searchBrandZhInput']) ? htmlspecialchars(trim($_REQUEST['searchBrandZhInput'])) : '');
 $searchBrandZhInput = (!empty($searchBrandZhInput) ? addslashes($searchBrandZhInput) : '');
 $searchBrandEnInput = (isset($_REQUEST['searchBrandEnInput']) ? htmlspecialchars(trim($_REQUEST['searchBrandEnInput'])) : '');
 $searchBrandEnInput = (!empty($searchBrandEnInput) ? addslashes($searchBrandEnInput) : '');
 
-if ($user_id <= 0) {
+if ($user_id <= 0) {//判断用户是否登录 ，未登录跳转相应页面（登陆/注册）
 	show_message($_LANG['steps_UserLogin'], $_LANG['UserLogin'], 'user.php');
 	exit();
 }
@@ -114,7 +115,7 @@ else if ($brandView == 'add_brand') {
 	$act .= '&brandView=brandView';
 }
 
-$steps_site = 'merchants_steps.php?step=' . $step . '&pid_key=' . $pid_key . $act;
+$steps_site = 'merchants_steps.php?step=' . $step . '&pid_key=' . $pid_key . $act. '&deg='.$degree;
 $sql = ' select site_process from ' . $ecs->table('merchants_steps_fields') . ' where user_id = \'' . $user_id . '\'';
 $site_process = $db->getOne($sql);
 $strpos = strpos($site_process, $steps_site);

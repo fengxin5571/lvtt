@@ -1,6 +1,6 @@
 <?php
 // database host
-$db_host   = "localhost:3306";
+$db_host   = "182.18.46.107:3306";
 
 // database name
 $db_name   = "lvtt_database";
@@ -9,7 +9,7 @@ $db_name   = "lvtt_database";
 $db_user   = "root";
 
 // database password
-$db_pass   = "admin";
+$db_pass   = "guopeng123";
 
 // table prefix
 $prefix    = "ltt_";

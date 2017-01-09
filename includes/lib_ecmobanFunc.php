@@ -1043,9 +1043,9 @@ function get_link_cat_id($category)
 	return $category;
 }
 
-function get_root_directory_steps($sid)
+function get_root_directory_steps($sid,$identity)
 {
-	$sql = 'select process_title, process_article from ' . $GLOBALS['ecs']->table('merchants_steps_process') . ' where process_steps = \'' . $sid . '\'';
+	$sql = 'select process_title, process_article from ' . $GLOBALS['ecs']->table('merchants_steps_process') . ' where process_steps = \'' . $sid . '\' AND identity = \''. $identity .  '\'';
 	$row = $GLOBALS['db']->getRow($sql);
 
 	if (0 < $row['process_article']) {
@@ -1055,9 +1055,9 @@ function get_root_directory_steps($sid)
 	return $row;
 }
 
-function get_root_steps_process_list($sid)
+function get_root_steps_process_list($sid,$identity)
 {
-	$sql = 'select id, process_title, fields_next from ' . $GLOBALS['ecs']->table('merchants_steps_process') . ' where process_steps = \'' . $sid . '\' AND is_show = 1 order by steps_sort ASC';
+	$sql = 'select id, process_title, fields_next from ' . $GLOBALS['ecs']->table('merchants_steps_process') . ' where process_steps = \'' . $sid . '\' AND is_show = 1 AND identity = \''.$identity. '\' order by steps_sort ASC';
 	$res = $GLOBALS['db']->getAll($sql);
 	$arr = array();
 

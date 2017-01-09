@@ -249,9 +249,15 @@ if (!$smarty->is_cached('merchants_steps.dwt')) {
 		$smarty->assign('district_list', $district_list);
 		$smarty->assign('consignee', $consignee);
 		$smarty->assign('sn', $sn);
-		$process_list = get_root_steps_process_list($sid);
+		$smarty->assign('deg', $degree);
+		if($degree == "guide"){
+		    $process_list = get_root_steps_process_list($sid,1);
+		}else if($degree == 'supplier'){
+		    $process_list = get_root_steps_process_list($sid,0);
+		}
+		
 		$process = $process_list[$pid_key];
-
+		
 		if (!$process_list) {
 			$Location = 'merchants_steps.php?step=stepThree&pid_key=' . $pid_key;
 			ecs_header('Location: ' . $Location . "\n");
@@ -299,9 +305,13 @@ if (!$smarty->is_cached('merchants_steps.dwt')) {
 	        show_message($_LANG['steps_empty_deg']);
 	        exit();
 	    }
-	    var_dump($degree);
-		$merchants_steps = get_root_directory_steps($sid);//获取相应步骤1的入驻协议
+	    if ($degree == 'guide'){
+	        $merchants_steps = get_root_directory_steps($sid,1);//获取相应步骤1的入驻协议
+	    }else if ($degree == 'supplier'){
+	        $merchants_steps = get_root_directory_steps($sid,0);//获取相应步骤1的入驻协议
+	    }
 		$smarty->assign('steps', $merchants_steps);
+		$smarty->assign('deg', $degree);
 	}
 
 	assign_dynamic('merchants_steps');
