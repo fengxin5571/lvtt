@@ -34,6 +34,20 @@
                                         </div>
                                     </div>
                                     <div class="item">
+                                        <div class="label">{$lang.from_identity}：</div>
+                                        <div class="label_value">
+											<div id="process_identity" class="imitate_select select_w320">
+												<div class="cite">{$lang.lable_supplier}</div>
+												<ul>
+													<li><a href='javascript:;' data-value='0' class='ftx-01'>{$lang.lable_supplier}</a></li>
+													<li><a href='javascript:;' data-value='1' class='ftx-01'>{$lang.lable_guide}</a></li>
+													
+												</ul>
+                                                <input name="process_identity" type="hidden" value="{$process_info.identity}" id="process_identity_val">
+											</div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
                                         <div class="label">{$lang.require_field}{$lang.steps_process_title}：</div>
                                         <div class="label_value">
 											<input type="text" name="process_title" id="process_title" class="text" value="{$process_info.process_title}" autocomplete="off" />

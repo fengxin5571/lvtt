@@ -61,7 +61,7 @@
             </div>
             <div class="progress-item {if $sid eq 1 }tobe{elseif  $sid eq 2}ongoing{elseif  $sid eq 3}passed{else}passed{/if}">
                 <div class="number">2</div>
-                <div class="progress-desc">公司信息认证</div>
+                <div class="progress-desc">{if $deg eq 'guide'}导游信息认证{else}公司信息认证{/if}</div>
                 <div class="arrow-background"></div>
                 <div class="arrow-foreground"></div>
             </div>
@@ -87,6 +87,7 @@
                 </div>
                 <div class="btn-group">
                     <input name="agreement" type="hidden" value="1" />
+                    <input name='deg'  type="hidden" value='{$deg}'/>
                     <input name="nextStepBtn" class="btn" type="submit" value="同意以上协议，下一步" />
                 </div>
             </div>
@@ -105,7 +106,7 @@
             </div>
             <div class="progress-item {if $sid eq 1}tobe{elseif  $sid eq 2}ongoing{elseif  $sid eq 3}passed{else}passed{/if}">
                 <div class="number">2</div>
-                <div class="progress-desc">公司信息认证</div>
+                <div class="progress-desc">{if $deg eq 'guide'}导游信息认证{else}公司信息认证{/if}</div>
                 <div class="arrow-background"></div>
                 <div class="arrow-foreground"></div>
             </div>
@@ -157,6 +158,7 @@
                     {if $brandView neq 'addBrand'}
                         <div class="btn-group mt0" style="text-align:center;">
                             <input name="numAdd" value="1" id="numAdd" type="hidden" />
+                            <input name='deg'  type="hidden" value='{$deg}'/>
                             <input name="pid_key" type="hidden" value="{$pid_key}" />
                             <input name="sid" type="hidden" value="{$sid}" />
                             <input name="step" type="hidden" value="{$step}" />
