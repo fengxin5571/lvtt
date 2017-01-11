@@ -1,5 +1,5 @@
 <?php
-//dezend by  QQ:2172298892
+//入驻申请流程管理语言包
 $_LANG['is_show'] = '是否显示';
 $_LANG['view_order'] = '查看';
 $_LANG['button_remove'] = '删除流程';
@@ -20,10 +20,13 @@ $_LANG['insert_failure'] = '添加失败';
 $_LANG['update_success'] = '更新成功';
 $_LANG['update_failure'] = '更新失败';
 $_LANG['rz_notis'] = '入驻需知';
-$_LANG['company_info_auth'] = '公司信息认证';
+$_LANG['company_info_auth'] = '导游/公司信息认证';
 $_LANG['shop_info_auth'] = '店铺信息认证';
 $_LANG['steps_process_not'] = '步骤流程为空';
 $_LANG['steps_sort'] = '排序';
+$_LANG['from_identity'] = '所属身份';
+$_LANG['lable_guide'] = '导游';
+$_LANG['lable_supplier'] = '供应商';
 $_LANG['merchants_fields_add'] = '添加字段';
 $_LANG['merchants_fields_del'] = '删除字段';
 $_LANG['merchants_fields_edit'] = '编辑字段';
@@ -55,7 +58,7 @@ $_LANG['merchants_bottom'] = '下面';
 $_LANG['merchants_not'] = '无';
 $_LANG['not_yet_info'] = '尚未提交信息';
 $_LANG['settled_need_know'] = '入驻须知';
-$_LANG['company_info_aut'] = '公司信息认证';
+$_LANG['company_info_aut'] = '导游/公司信息认证';
 $_LANG['shop_info_aut'] = '店铺信息认证';
 $_LANG['basic_info'] = '基本信息';
 $_LANG['steps_shop_type'] = '店铺类型';

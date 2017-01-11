@@ -1,5 +1,11 @@
 <?php
-//dezend by  QQ:2172298892
+/**
+ * 获取入驻申请列表信息
+ * 
+ * @access private
+ * @param  
+ * @return $arr
+ */
 function steps_process_list()
 {
 	$result = get_filter();
@@ -20,7 +26,7 @@ function steps_process_list()
 
 		$filter['record_count'] = $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('merchants_steps_process') . $ex_where);
 		$filter = page_and_size($filter);
-		$sql = 'SELECT id, process_steps, process_title, steps_sort, is_show ' . ' FROM ' . $GLOBALS['ecs']->table('merchants_steps_process') . $ex_where . ' ORDER by ' . $filter['sort_by'] . ' ' . $filter['sort_order'] . ' LIMIT ' . $filter['start'] . ',' . $filter['page_size'];
+		$sql = 'SELECT id, process_steps, process_title, steps_sort, is_show , identity ' . ' FROM ' . $GLOBALS['ecs']->table('merchants_steps_process') . $ex_where . ' ORDER by ' . $filter['sort_by'] . ' ' . $filter['sort_order'] . ' LIMIT ' . $filter['start'] . ',' . $filter['page_size'];
 		$filter['keywords'] = stripslashes($filter['keywords']);
 		set_filter($filter, $sql);
 	}
@@ -81,16 +87,24 @@ function steps_process_title_list($id)
 	$arr = array('title_list' => $title_list, 'filter' => $filter, 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count']);
 	return $arr;
 }
+/**
+ * 后台申请入驻流程管理
 
+
+ * ============================================================================
+ * $Author: fegnxin $
+ * $Id: merchants_steps.php 17063 2017-01-9 06:35:46Z fengxin $
+ */
 define('IN_ECS', true);
 require dirname(__FILE__) . '/includes/init.php';
 $exc_process = new exchange($ecs->table('merchants_steps_process'), $db, 'id', 'process_title');
 
-if ($_REQUEST['act'] == 'list') {
-	admin_priv('merchants_setps');
+if ($_REQUEST['act'] == 'list') {//获取申请入驻流程列表
+	admin_priv('merchants_setps');//查看是否具有相应的权限
 	$smarty->assign('ur_here', $_LANG['01_merchants_list']);
 	$smarty->assign('action_link', array('text' => $_LANG['02_merchants_add'], 'href' => 'merchants_steps.php?act=add'));
-	$process_list = steps_process_list();
+	$process_list = steps_process_list();//获取入组申请流程列表信息
+	//var_dump($process_list['process_list']);
 	$smarty->assign('process_list', $process_list['process_list']);
 	$smarty->assign('filter', $process_list['filter']);
 	$smarty->assign('record_count', $process_list['record_count']);
@@ -100,7 +114,7 @@ if ($_REQUEST['act'] == 'list') {
 	assign_query_info();
 	$smarty->display('merchants_steps_list.dwt');
 }
-else if ($_REQUEST['act'] == 'edit_sort_order') {
+else if ($_REQUEST['act'] == 'edit_sort_order') {//ajax编辑排序
 	check_authz_json('merchants_setps');
 	$id = intval($_POST['id']);
 	$order = intval($_POST['val']);
@@ -162,7 +176,7 @@ else if ($_REQUEST['act'] == 'toggle_steps_show') {
 		make_json_result($is_show);
 	}
 }
-else if ($_REQUEST['act'] == 'add') {
+else if ($_REQUEST['act'] == 'add') {//入驻申请流程添加界面
 	admin_priv('merchants_setps');
 	$smarty->assign('ur_here', $_LANG['02_merchants_add']);
 	$smarty->assign('action_link', array('text' => $_LANG['01_merchants_list'], 'href' => 'merchants_steps.php?act=list'));
@@ -170,20 +184,22 @@ else if ($_REQUEST['act'] == 'add') {
 	assign_query_info();
 	$smarty->display('merchants_steps_process.dwt');
 }
-else if ($_REQUEST['act'] == 'insert') {
+else if ($_REQUEST['act'] == 'insert') {//入驻申请流程处理添加
 	admin_priv('merchants_setps');
 	$process_steps = (isset($_POST['process_steps']) ? trim($_POST['process_steps']) : 1);
 	$process_title = (isset($_POST['process_title']) ? trim($_POST['process_title']) : '');
 	$process_article = (isset($_POST['process_article']) ? trim($_POST['process_article']) : 0);
+	$process_identity = (isset($_POST['process_identity']) ? trim($_POST['process_identity']) : 0);
 	$steps_sort = (isset($_POST['steps_sort']) ? trim($_POST['steps_sort']) + 0 : 0);
 	$fields_next = (isset($_POST['fields_next']) ? trim($_POST['fields_next']) : '');
+	
 	$sql = 'select id from ' . $ecs->table('merchants_steps_process') . ' where process_title = \'' . $process_title . '\'';
 	$res = $db->getOne($sql);
 	if (0 < $res) {
 		$add = $_LANG['add_failure'];
 	}
 	else {
-		$parent = array('process_steps' => $process_steps, 'process_title' => $process_title, 'process_article' => $process_article, 'steps_sort' => $steps_sort, 'fields_next' => $fields_next);
+		$parent = array('process_steps' => $process_steps, 'process_title' => $process_title, 'process_article' => $process_article, 'steps_sort' => $steps_sort, 'fields_next' => $fields_next,'identity' => $process_identity);
 		$GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('merchants_steps_process'), $parent, 'INSERT');
 		$add = $_LANG['add_success_process'];
 	}
@@ -288,6 +304,7 @@ else if ($_REQUEST['act'] == 'update') {
 	$process_steps = (isset($_POST['process_steps']) ? trim($_POST['process_steps']) : 1);
 	$process_title = (isset($_POST['process_title']) ? trim($_POST['process_title']) : '');
 	$process_article = (isset($_POST['process_article']) ? trim($_POST['process_article']) : 0);
+	$process_identity = (isset($_POST['process_identity']) ? trim($_POST['process_identity']) : 0);
 	$steps_sort = (isset($_POST['steps_sort']) ? trim($_POST['steps_sort']) + 0 : 0);
 	$fields_next = (isset($_POST['fields_next']) ? trim($_POST['fields_next']) : '');
 	$sql = 'select id from ' . $ecs->table('merchants_steps_process') . ' where (process_title = \'' . $process_title . '\' ) and id <> \'' . $id . '\'';
@@ -297,7 +314,7 @@ else if ($_REQUEST['act'] == 'update') {
 		$update = $_LANG['update_failure'];
 	}
 	else {
-		$parent = array('process_steps' => $process_steps, 'process_title' => $process_title, 'process_article' => $process_article, 'steps_sort' => $steps_sort, 'fields_next' => $fields_next);
+		$parent = array('process_steps' => $process_steps, 'process_title' => $process_title, 'process_article' => $process_article, 'steps_sort' => $steps_sort, 'fields_next' => $fields_next, 'identity' => $process_identity);
 		$GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('merchants_steps_process'), $parent, 'UPDATE', 'id = \'' . $id . '\'');
 		$update = $_LANG['update_success'];
 	}
