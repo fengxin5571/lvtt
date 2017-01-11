@@ -137,9 +137,9 @@ class cls_template
 								//mkdir($hash_dir);
 							}
 
-							/*if (file_put_contents($hash_dir . '/' . $cachename . '.php', '<?php exit;?>' . $data . $out, LOCK_EX) === false) {
+							if (file_put_contents($hash_dir . '/' . $cachename . '.php', '<?php exit;?>' . $data . $out, LOCK_EX) === false) {
 								trigger_error('can\'t write:' . $hash_dir . '/' . $cachename . '.php');
-							}*/
+							}
 						}
 
 						$this->template = array();
@@ -199,9 +199,9 @@ class cls_template
 				if ($GLOBALS['_CFG']['open_memcached'] == 1) {
 					$GLOBALS['cache']->set('compiled_' . $name, $source);
 				}
-				/*else if (file_put_contents($name, $source, LOCK_EX) === false) {
+				else if (file_put_contents($name, $source, LOCK_EX) === false) {
 					trigger_error('can\'t write:' . $name);
-				}*/
+				}
 			}
 
 			$source = $this->_eval($source);

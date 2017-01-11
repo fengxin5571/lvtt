@@ -265,8 +265,6 @@ if ($_REQUEST['act'] == '') {
 		$smarty->assign('shop_name', $shop_name);
 		$smarty->assign('priv_ru', 0);
 	}
-//	echo "<pre>"
-	//var_dump($nav_top);exit;
 	$smarty->assign('nav_top', $nav_top);
 	$admin_id = intval($_SESSION['admin_id']);
 	$sql = 'SELECT u.user_name,u.last_login,u.last_ip,u.admin_user_img,r.role_name FROM ' . $ecs->table('admin_user') . " u\r\n            LEFT JOIN " . $ecs->table('role') . ' r ON u.role_id = r.role_id WHERE u.user_id = \'' . $admin_id . '\'';
