@@ -489,8 +489,16 @@ class cls_template
 				case 'strip_tags':
 					$p = 'strip_tags(' . $p . ')';
 					break;
-
+				
+				case 'print_r':
+					$p='print_r('.$p.',true)';
+					break;
+		    	case 'var_export':
+					$p='var_export('.$p.',true)'; 
+					break;
+				
 				default:
+					 # code...
 					break;
 				}
 			}

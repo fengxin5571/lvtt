@@ -99,22 +99,27 @@ if ($_GET['act'] == 'send') {
 
 	$sql = 'select user_id,user_name from ' . $ecs->table('users') . ' where mobile_phone=\'' . $mobile . '\'';
 	$row = $db->getRow($sql);
-
+	$mobile_code = random(4, 1);
 	if ($_GET['flag'] == 'register') {
+		$message = '您的注册验证码是：' . $mobile_code . '，请不要把验证码泄露给其他人，如非本人操作，可不用理会';
 		if (!empty($row['user_id'])) {
 			exit(json_encode(array('msg' => '手机已存在,请重新输入')));
 		}
 	}
 	else if ($_GET['flag'] == 'forget') {
+		$message = '您正在进行找回密码操作，验证码是：' . $mobile_code . '，请不要把验证码泄露给其他人，如非本人操作，可不用理会';
 		if (empty($row['user_id'])) {
 			exit(json_encode(array('msg' => "手机号码不存在\n无法通过该号码找回密码")));
 		}
 	}
+	else {
+		$message = '您正在进行绑定手机操作，验证码是：' . $mobile_code . '，请不要把验证码泄露给其他人，如非本人操作，可不用理会';
+	}
 
-	$mobile_code = random(4, 1);
+	
 
 	if ($GLOBALS['_CFG']['sms_type'] == 0) {
-		$message = '您的验证码是：' . $mobile_code . '，请不要把验证码泄露给其他人，如非本人操作，可不用理会';
+		
 	}
 	else {
 		$message = array('mobile_code' => $mobile_code, 'user_name' => $username, 'sms_value' => $sms_value);

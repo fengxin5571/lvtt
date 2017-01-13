@@ -147,7 +147,6 @@ if ($_REQUEST['act'] == 'list_edit') {
 			$smarty->assign('cities', get_regions(2, $_CFG['shop_province']));
 		}
 	}
-
 	$smarty->assign('cfg', $_CFG);
 	$invoice_list = get_invoice_list($_CFG['invoice_type']);
 	$smarty->assign('invoice_list', $invoice_list);

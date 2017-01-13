@@ -2763,24 +2763,24 @@
                 <div class="fore2"><span class="ftx-03"></span><span class="ftx-01">互联网账号存在被盗风险，建议您定期更改密码以保护账户安全。</span></div>
                 <div class="fore3"><a href="user.php?act=account_safe&type=change_password" class="ftx-05">修改</a></div>
             </div>
-            <div class="safe-item">
+            <!--<div class="safe-item">-->
             <!-- {if $validate.email_validate} -->
-                <div class="fore1"><s class="icon-01"></s><strong>邮箱验证</strong><b class="icon-id01">邮箱认证</b></div>
-                <div class="fore2">
+                <!--<div class="fore1"><s class="icon-01"></s><strong>邮箱验证</strong><b class="icon-id01">邮箱认证</b></div>
+                <div class="fore2">-->
                     <!-- 已验证邮箱 -->
-                    <span class="ftx-03">您验证的邮箱：</span>
+                    <!--<span class="ftx-03">您验证的邮箱：</span>
                     <strong class="ftx-06" id="email">{$validate.email}</strong>
                 </div>
-                <div class="fore3"><a href="user.php?act=account_safe&type=change_email" class="ftx-05">修改</a></div>
+                <div class="fore3"><a href="user.php?act=account_safe&type=change_email" class="ftx-05">修改</a></div>-->
             <!-- {else} -->
-                <div class="fore1"><s class="icon-02"></s><strong>邮箱验证</strong><b class="icon-id01d">邮箱认证</b></div>
-                <div class="fore2">
+                <!--<div class="fore1"><s class="icon-02"></s><strong>邮箱验证</strong><b class="icon-id01d">邮箱认证</b></div>
+                <div class="fore2">-->
                     <!--未验证邮箱-->
-                    <span class="ftx-03">验证后，可用于快速找回登录密码，接收账户余额变动提醒等。</span>
+                    <!--<span class="ftx-03">验证后，可用于快速找回登录密码，接收账户余额变动提醒等。</span>
                 </div>
-                <div class="fore3"><a href="user.php?act=account_safe&type=change_email" class="ftx-05 opt-btn">验证</a></div>
+                <div class="fore3"><a href="user.php?act=account_safe&type=change_email" class="ftx-05 opt-btn">验证</a></div>-->
             <!-- {/if} -->
-            </div>
+            <!--</div>-->
 
             <div class="safe-item">
             <!-- {if $validate.mobile_phone} -->
