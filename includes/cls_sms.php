@@ -20,10 +20,23 @@ class sms
 	{
 		if ($GLOBALS['_CFG']['sms_type'] == 0) {
 			$contents = $this->get_contents($phones, $msg);
-
 			if (!$contents) {
 				return false;
 			}
+			$a=array('0'=>array('0'=>0,'1'=>1));
+			if($GLOBALS['_CFG']['sms_shop_debug']==1){
+				$get="<?xml version='1.0' encoding='utf-8'?><SubmitResult xmlns='106.ihuyi.com'><code>2</code><msg>提交成功</msg><smsid>14745625541233112231</smsid></SubmitResult>";
+				$gets=$this->xml_to_array($get);
+				$fopen=fopen("E:/wamp/WWW/lvtt/data/txt/huyi.txt","a");
+				foreach($contents as $v){
+					$getss=implode(",",$v);
+					$getss=$getss."\r\n";
+					fwrite($fopen,$getss);
+				}	
+				fclose($fopen);
+			}
+			else {
+			
 
 			$sms_url = 'http://106.ihuyi.com/webservice/sms.php?method=Submit';
 
@@ -40,7 +53,9 @@ class sms
 				$get = $this->Post($post_data, $sms_url);
 				$gets = $this->xml_to_array($get);
 			}
-
+             
+			}
+			 
 			if ($gets['SubmitResult']['code'] == 2) {
 				return true;
 			}
@@ -48,7 +63,7 @@ class sms
 				$sms_error = $phones . $gets['SubmitResult']['msg'];
 				$this->logResult($sms_error);
 				return false;
-			}
+			} 
 		}
 		else if ($GLOBALS['_CFG']['sms_type'] == 1) {
 			$msg = $this->get_usser_sms_msg($msg);
@@ -61,10 +76,13 @@ class sms
 				$smsParams = array('mobile_phone' => $phones, 'code' => $msg['code'], 'product' => $msg['product']);
 				$send_time = 'sms_signin';
 			}
-
-			$result = sms_ali($smsParams, $send_time);
-			$resp = $GLOBALS['ecs']->ali_yu($result);
-
+			if($GLOBALS['_CFG']['sms_shop_debug']==1){
+				
+			}
+			else{
+				$result = sms_ali($smsParams, $send_time);
+				$resp = $GLOBALS['ecs']->ali_yu($result);
+			}
 			if ($resp->code == 0) {
 				return true;
 			}
@@ -80,6 +98,7 @@ class sms
 				return false;
 			}
 		}
+		
 	}
 
 	public function Post($curlPost, $url)
