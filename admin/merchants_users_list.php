@@ -1,5 +1,5 @@
 <?php
-//dezend by  QQ:2172298892
+
 function steps_users_list()
 {
 	$result = get_filter();
@@ -71,9 +71,9 @@ function steps_users_list()
 	return $arr;
 }
 
-function get_steps_user_shopInfo_list($user_id = 0, $ec_shop_bid = 0)
+function get_steps_user_shopInfo_list($identity=0,$user_id = 0, $ec_shop_bid = 0)
 {
-	$sql = 'select * from ' . $GLOBALS['ecs']->table('merchants_steps_process') . ' where 1 and process_steps <> 1 AND is_show = 1 AND id <> 10 order by process_steps asc';
+	$sql = 'select * from ' . $GLOBALS['ecs']->table('merchants_steps_process') . ' where 1 and process_steps <> 1 AND is_show = 1 AND identity = '. $identity.' AND id <> 10 order by process_steps asc';
 	$res = $GLOBALS['db']->getAll($sql);
 	$arr = array();
 
@@ -101,19 +101,19 @@ function get_user_steps_title($id = 0, $user_id, $ec_shop_bid)
 		$arr[$key]['titles_annotation'] = $row['titles_annotation'];
 		$sql = 'select * from ' . $GLOBALS['ecs']->table('merchants_steps_fields_centent') . ' where tid = \'' . $row['tid'] . '\'';
 		$centent = $GLOBALS['db']->getRow($sql);
-		$cententFields = get_fields_centent_info($centent['id'], $centent['textFields'], $centent['fieldsDateType'], $centent['fieldsLength'], $centent['fieldsNotnull'], $centent['fieldsFormName'], $centent['fieldsCoding'], $centent['fieldsForm'], $centent['fields_sort'], $centent['will_choose'], 'root', $user_id);
+		$cententFields = get_fields_centent_info(0,$centent['id'], $centent['textFields'], $centent['fieldsDateType'], $centent['fieldsLength'], $centent['fieldsNotnull'], $centent['fieldsFormName'], $centent['fieldsCoding'], $centent['fieldsForm'], $centent['fields_sort'], $centent['will_choose'], 'root', $user_id);
 		$arr[$key]['cententFields'] = get_array_sort($cententFields, 'fields_sort');
 		$shop_info = get_merchants_septs_custom_userinfo('merchants_shop_information', $user_id);
 		$brand_info = get_merchants_septs_custom_userinfo('merchants_shop_brand', $user_id, 'pingpai', $ec_shop_bid);
-
-		if ($row['steps_style'] == 1) {
+        /*流程信息显示样式*/
+		if ($row['steps_style'] == 1) {//店铺类型
 			$parent = array('shoprz_type' => $shop_info['shoprz_type'], 'subShoprz_type' => $shop_info['subShoprz_type'], 'shop_expireDateStart' => local_date('Y-m-d H:i', $shop_info['shop_expireDateStart']), 'shop_expireDateEnd' => local_date('Y-m-d H:i', $shop_info['shop_expireDateEnd']), 'shop_permanent' => $shop_info['shop_permanent'], 'authorizeFile' => $shop_info['authorizeFile'], 'shop_hypermarketFile' => $shop_info['shop_hypermarketFile'], 'shop_categoryMain' => $shop_info['shop_categoryMain']);
 		}
-		else if ($row['steps_style'] == 2) {
+		else if ($row['steps_style'] == 2) { //类目信息
 			$arr[$key]['first_cate'] = get_first_cate_list('', '', '', $user_id);
 			$parent = array('shop_categoryMain' => $shop_info['shop_categoryMain']);
 		}
-		else if ($row['steps_style'] == 3) {
+		else if ($row['steps_style'] == 3) {//品牌信息
 			$arr[$key]['brand_list'] = get_septs_shop_brand_list($user_id);
 			$brandfile_list = get_shop_brandfile_list($ec_shop_bid);
 			$arr[$key]['brandfile_list'] = $brandfile_list;
@@ -127,7 +127,7 @@ function get_user_steps_title($id = 0, $user_id, $ec_shop_bid)
 
 			$parent = array('bank_name_letter' => $brand_info['bank_name_letter'], 'brandName' => $brand_info['brandName'], 'brandFirstChar' => $brand_info['brandFirstChar'], 'brandLogo' => $brand_info['brandLogo'], 'brandType' => $brand_info['brandType'], 'brand_operateType' => $brand_info['brand_operateType'], 'brandEndTime' => $brand_info['brandEndTime'], 'brandEndTime_permanent' => $brand_info['brandEndTime_permanent']);
 		}
-		else if ($row['steps_style'] == 4) {
+		else if ($row['steps_style'] == 4) { //店铺信息
 			$sql = 'select bid, brandName from ' . $GLOBALS['ecs']->table('merchants_shop_brand') . ' where user_id = \'' . $user_id . '\'';
 			$brand_list = $GLOBALS['db']->getAll($sql);
 			$arr[$key]['brand_list'] = $brand_list;
@@ -212,7 +212,7 @@ function get_admin_merchants_steps_title($user_id = 0, $addImg = '')
 		$arr[$key]['tid'] = $row['tid'];
 		$sql = 'select * from ' . $GLOBALS['ecs']->table('merchants_steps_fields_centent') . ' where tid = \'' . $row['tid'] . '\'';
 		$centent = $GLOBALS['db']->getRow($sql);
-		$cententFields = get_fields_centent_info($centent['id'], $centent['textFields'], $centent['fieldsDateType'], $centent['fieldsLength'], $centent['fieldsNotnull'], $centent['fieldsFormName'], $centent['fieldsCoding'], $centent['fieldsForm'], $centent['fields_sort'], $centent['will_choose'], 'root', $user_id);
+		$cententFields = get_fields_centent_info(0,$centent['id'], $centent['textFields'], $centent['fieldsDateType'], $centent['fieldsLength'], $centent['fieldsNotnull'], $centent['fieldsFormName'], $centent['fieldsCoding'], $centent['fieldsForm'], $centent['fields_sort'], $centent['will_choose'], 'root', $user_id);
 		$arr[$key]['cententFields'] = get_array_sort($cententFields, 'fields_sort');
 		$shop_info = get_merchants_septs_custom_userinfo('merchants_shop_information');
 		$brand_info = get_merchants_septs_custom_userinfo('merchants_shop_brand', $user_id, 'pingpai', $ec_shop_bid);
@@ -445,14 +445,15 @@ if ($_REQUEST['act'] == 'list') {
 	$smarty->assign('ur_here', $_LANG['02_merchants_users_list']);
 	$smarty->assign('action_link', array('text' => $_LANG['01_merchants_user_add'], 'href' => 'merchants_users_list.php?act=add_shop'));
 	$smarty->assign('action_link2', array('text' => $_LANG['02_initialize_seller_rank'], 'href' => 'merchants_users_list.php?act=create_initialize_rank'));
-	$users_list = steps_users_list();
+	$users_list = steps_users_list();//获取供应商列表
 	$smarty->assign('users_list', $users_list['users_list']);
 	$smarty->assign('filter', $users_list['filter']);
 	$smarty->assign('record_count', $users_list['record_count']);
 	$smarty->assign('page_count', $users_list['page_count']);
 	$smarty->assign('full_page', 1);
 	$smarty->assign('sort_user_id', '<img src="images/sort_desc.gif">');
-	$store_list = get_common_store_list();
+	$store_list = get_common_store_list();//或缺店铺类型等级信息
+	
 	$smarty->assign('store_list', $store_list);
 	assign_query_info();
 	$smarty->display('merchants_users_list.dwt');
@@ -472,7 +473,7 @@ else if ($_REQUEST['act'] == 'check_shop_name') {
 
 	exit(json_encode($data));
 }
-else if ($_REQUEST['act'] == 'query') {
+else if ($_REQUEST['act'] == 'query') {//ajax查询
 	$users_list = steps_users_list();
 	$smarty->assign('users_list', $users_list['users_list']);
 	$smarty->assign('filter', $users_list['filter']);
@@ -489,7 +490,7 @@ if (($_REQUEST['act'] == 'add_shop') || ($_REQUEST['act'] == 'edit_shop')) {
 	admin_priv('users_merchants');
 	$db->query('DELETE FROM' . $ecs->table('merchants_shop_brand') . ' WHERE (user_id = 0 or user_id = \'\')');
 	$user_id = (isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0);
-	$shopInfo_list = get_steps_user_shopinfo_list($user_id);
+	$shopInfo_list = get_steps_user_shopinfo_list(0,$user_id);
 	$smarty->assign('shopInfo_list', $shopInfo_list);
 	$smarty->assign('action_link', array('text' => $_LANG['02_merchants_users_list'], 'href' => 'merchants_users_list.php?act=list'));
 	$seller_grade_list = $db->getAll(' SELECT * FROM' . $ecs->table('seller_grade'));
@@ -539,7 +540,7 @@ if (($_REQUEST['act'] == 'add_shop') || ($_REQUEST['act'] == 'edit_shop')) {
 	assign_query_info();
 	$smarty->display('merchants_users_shopInfo.dwt');
 }
-else if ($_REQUEST['act'] == 'toggle_is_street') {
+else if ($_REQUEST['act'] == 'toggle_is_street') {//编辑是否在店铺街显示
 	check_authz_json('goods_manage');
 	$shop_id = intval($_POST['id']);
 	$is_street = intval($_POST['val']);
@@ -574,7 +575,7 @@ else {
 		$year_num = (isset($_REQUEST['year_num']) ? intval($_REQUEST['year_num']) : 1);
 		$form = get_admin_steps_title_insert_form($user_id);
 		$parent = get_setps_form_insert_date($form['formName']);
-
+		$parent['identity']=0;
 		if ($old_merchants_audit != $merchants_audit) {
 			$sql = 'SELECT COUNT(id) FROM ' . $ecs->table('merchants_grade') . ' WHERE ru_id = ' . $user_id;
 			$grade = $db->getOne($sql);
@@ -598,11 +599,12 @@ else {
 		}
 
 		if ($_REQUEST['act'] == 'update_shop') {
-			$GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('merchants_steps_fields'), $parent, 'UPDATE', 'user_id = \'' . $user_id . '\'');
+			$GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('merchants_steps_fields'), $parent, 'UPDATE', 'user_id = \'' . $user_id . '\' AND identity = 0');
 		}
 		else {
 			$parent['user_id'] = $user_id;
 			$parent['agreement'] = 1;
+			
 			$sql = 'select fid from ' . $ecs->table('merchants_steps_fields') . ' where user_id = \'' . $user_id . '\'';
 			$fid = $db->getOne($sql);
 
@@ -703,7 +705,7 @@ else {
 		$pwd = 'ecmoban_' . $user_id;
 		$password = md5(md5($pwd) . $ec_salt);
 		$sql = 'SELECT grade_id FROM' . $ecs->table('merchants_grade') . ' WHERE ru_id = \'' . $user_id . '\' LIMIT 1 ';
-		$merchants_grade = $db->getRow($sql);
+		$merchants_grade = $db->getRow($sql);//获取相应用户的商家等级
 		$grade_id = (0 < $merchants_grade['grade_id'] ? $merchants_grade['grade_id'] : 0);
 		$action_list = $db->getOne('SELECT action_list FROM ' . $ecs->table('merchants_privilege') . ' WHERE  grade_id = \'' . $grade_id . '\'');
 		$sql = 'SELECT nav_list FROM ' . $ecs->table('admin_user') . ' WHERE action_list = \'all\'';
@@ -1092,7 +1094,7 @@ else {
 		$ec_shop_bid = (isset($_REQUEST['ec_shop_bid']) ? intval($_REQUEST['ec_shop_bid']) : 0);
 		$user_id = (isset($_REQUEST['user_id']) ? intval($_REQUEST['user_id']) : 0);
 		$brandView = (isset($_REQUEST['brandView']) ? $_REQUEST['brandView'] : '');
-		$shopInfo_list = get_steps_user_shopinfo_list($user_id, $ec_shop_bid);
+		$shopInfo_list = get_steps_user_shopinfo_list(0,$user_id, $ec_shop_bid);
 		$smarty->assign('shopInfo_list', $shopInfo_list);
 		$category_info = get_fine_category_info(0, $user_id);
 		$smarty->assign('category_info', $category_info);
@@ -1130,7 +1132,7 @@ else {
 		$ec_shop_bid = (isset($_REQUEST['ec_shop_bid']) ? intval($_REQUEST['ec_shop_bid']) : 0);
 		$user_id = (isset($_REQUEST['user_id']) ? intval($_REQUEST['user_id']) : 0);
 		$brandView = (isset($_REQUEST['brandView']) ? $_REQUEST['brandView'] : '');
-		$shopInfo_list = get_steps_user_shopinfo_list($user_id, $ec_shop_bid);
+		$shopInfo_list = get_steps_user_shopinfo_list(0,$user_id, $ec_shop_bid);
 
 		foreach ($shopInfo_list as $k => $v) {
 			foreach ($v['steps_title'] as $key => $val) {

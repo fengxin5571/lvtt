@@ -290,7 +290,7 @@ else if ($_REQUEST['act'] == 'title_edit') {
 	$smarty->assign('title_info', $title_info);
 	$sql = 'select * from ' . $ecs->table('merchants_steps_fields_centent') . ' where tid = \'' . $id . '\'';
 	$centent = $db->getRow($sql);
-	$cententFields = get_fields_centent_info($centent['id'], $centent['textFields'], $centent['fieldsDateType'], $centent['fieldsLength'], $centent['fieldsNotnull'], $centent['fieldsFormName'], $centent['fieldsCoding'], $centent['fieldsForm'], $centent['fields_sort'], $centent['will_choose']);
+	$cententFields = get_fields_centent_info(3,$centent['id'], $centent['textFields'], $centent['fieldsDateType'], $centent['fieldsLength'], $centent['fieldsNotnull'], $centent['fieldsFormName'], $centent['fieldsCoding'], $centent['fieldsForm'], $centent['fields_sort'], $centent['will_choose']);
 	$smarty->assign('cententFields', $cententFields);
 	$smarty->assign('fieldsCount', count($cententFields) + 1);
 	assign_query_info();
