@@ -2,10 +2,11 @@
 <div class="tit"><h4>{$title.fields_titles}</h4></div>
 
 <div class="items"> 
+
 {foreach from=$title.cententFields item=fields}
 	<div class="item">
-		<div class="label">{$fields.fieldsFormName}：</div>
-		<div class="value">
+		<div class="label">{if $fields.will_choose}<em class="require-field">*</em>{/if}{$fields.fieldsFormName}：</div>
+		<div class="value nt_value">
 			{if $fields.chooseForm eq 'input'}
 				<input class="text" type="text" value="{$fields.titles_centents}" size="{$fields.inputForm}" name="{$fields.textFields}">
 			{elseif $fields.chooseForm eq 'other'}
@@ -57,11 +58,11 @@
 				{elseif $fields.otherForm eq 'dateFile'}
 					<div class="type-file-box">
 						<input type="button" name="button" id="button" class="type-file-button" value="" />
-						<input type="file" class="type-file-file" name="{$fields.textFields}" size="30" hidefocus="true" value="" />
+						<input type="file" class="type-file-file" name="{$fields.textFields}" size="30" hidefocus="true" value="{$fields.titles_centents}" />
 						<input name="text_{$fields.textFields}" type="hidden" value="{$fields.titles_centents}" />
 						{if $fields.titles_centents neq ''}
                         <span class="show">
-							<a href="../{$fields.titles_centents}" target="_blank" class="nyroModal"><i class="icon icon-picture" onmouseover="toolTip('<img src=../{$fields.titles_centents}>')" onmouseout="toolTip()"></i></a>
+							<a href="../{$fields.titles_centents}" target="_blank" class="nyroModal"><i   class="icon icon-picture" onmouseover="toolTip('<img src=../{$fields.titles_centents}>')" onmouseout="toolTip()"></i></a>
 						</span>
                         {/if}
 						<input type="text" name="textfile" class="type-file-text" id="textfield" readonly />
@@ -122,6 +123,7 @@
                     </div>
 				{/if}
 			<div class="fl org">{$fields.formSpecial}</div>
+			<div class="form_prompt" style="float:left;"></div>
 		</div>
 	</div>
 {/foreach}
