@@ -12,7 +12,7 @@ $modules['04_order']['12_back_apply'] = 'order.php?act=return_list';
 $modules['02_cat_and_goods']['discuss_circle'] = 'discuss_circle.php?act=list';
 $modules['01_system']['user_keywords_list'] = 'keywords_manage.php?act=list';
 $modules['17_merchants']['01_merchants_steps_list'] = 'merchants_steps.php?act=list';
-$modules['17_merchants']['02_guides_users_list'] = 'merchants_users_list.php?act=list';
+$modules['17_merchants']['02_guides_users_list'] = 'guides_users_list.php?act=list';
 $modules['17_merchants']['02_merchants_users_list'] = 'merchants_users_list.php?act=list';
 $modules['17_merchants']['03_merchants_commission'] = 'merchants_commission.php?act=list';
 $modules['17_merchants']['03_users_merchants_priv'] = 'merchants_privilege.php?act=allot';

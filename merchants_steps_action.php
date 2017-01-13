@@ -21,30 +21,39 @@ $searchBrandZhInput = (isset($_REQUEST['searchBrandZhInput']) ? htmlspecialchars
 $searchBrandZhInput = (!empty($searchBrandZhInput) ? addslashes($searchBrandZhInput) : '');
 $searchBrandEnInput = (isset($_REQUEST['searchBrandEnInput']) ? htmlspecialchars(trim($_REQUEST['searchBrandEnInput'])) : '');
 $searchBrandEnInput = (!empty($searchBrandEnInput) ? addslashes($searchBrandEnInput) : '');
-
+$did = $degree =='guide'?1:0;
 if ($user_id <= 0) {//判断用户是否登录 ，未登录跳转相应页面（登陆/注册）
 	show_message($_LANG['steps_UserLogin'], $_LANG['UserLogin'], 'user.php');
 	exit();
 }
 
-$sql = 'select agreement from ' . $ecs->table('merchants_steps_fields') . ' where user_id = \'' . $user_id . '\'';
+$sql = 'select agreement from ' . $ecs->table('merchants_steps_fields') . ' where user_id = \'' . $user_id . '\' AND identity = '.$did;
 $sf_agreement = $db->getOne($sql);
 
 if ($sf_agreement != 1) {
 	if ($agreement == 1) {
-		$parent = array('user_id' => $user_id, 'agreement' => $agreement);
+		$parent = array('user_id' => $user_id, 'agreement' => $agreement,'identity' => $did);
 		$GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('merchants_steps_fields'), $parent, 'INSERT');
 	}
 }
 else {
-	$process_list = get_root_steps_process_list($sid);
+    if($degree == "guide"){
+        $process_list = get_root_steps_process_list($sid,1);//获取第二步导游身份流程信息
+        
+    }else if($degree == 'supplier'){
+        $process_list = get_root_steps_process_list($sid,0);//获取第二步供应商身份流程信息
+    }
+	
+	
 	$process = $process_list[$pid_key];
 	$noWkey = $pid_key - 1;
+	
 	$noWprocess = $process_list[$noWkey];
 	$form = get_steps_title_insert_form($noWprocess['id']);
-	$parent = get_setps_form_insert_date($form['formName']);
+	$parent = get_setps_form_insert_date($form['formName']);//获取指定控件的值
 	$parent['site_process'] = !empty($parent['site_process']) ? addslashes($parent['site_process']) : $parent['site_process'];
-	$GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('merchants_steps_fields'), $parent, 'UPDATE', 'user_id = \'' . $user_id . '\'');
+	
+	$GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('merchants_steps_fields'), $parent, 'UPDATE', 'user_id = \'' . $user_id . '\' AND identity ='.$did);
 
 	if ($step == 'stepTwo') {
 		if (!is_array($process)) {
@@ -58,7 +67,10 @@ else {
 		}
 	}
 	else if ($step == 'stepThree') {
+	    var_dump($process);
+	    exit;
 		if (!is_array($process)) {
+		    
 			$ec_rz_shopName = (isset($_REQUEST['ec_rz_shopName']) ? trim($_REQUEST['ec_rz_shopName']) : '');
 			$ec_hopeLoginName = (isset($_REQUEST['ec_hopeLoginName']) ? trim($_REQUEST['ec_hopeLoginName']) : '');
 			$sql = 'select user_id from ' . $ecs->table('merchants_shop_information') . ' where rz_shopName = \'' . $ec_rz_shopName . '\' AND user_id <> \'' . $_SESSION['user_id'] . '\'';
@@ -87,6 +99,7 @@ else {
 				$pid_key = 0;
 			}
 		}
+		
 	}
 }
 
@@ -116,10 +129,11 @@ else if ($brandView == 'add_brand') {
 }
 
 $steps_site = 'merchants_steps.php?step=' . $step . '&pid_key=' . $pid_key . $act. '&deg='.$degree;
-$sql = ' select site_process from ' . $ecs->table('merchants_steps_fields') . ' where user_id = \'' . $user_id . '\'';
-$site_process = $db->getOne($sql);
-$strpos = strpos($site_process, $steps_site);
 
+$sql = ' select site_process from ' . $ecs->table('merchants_steps_fields') . ' where user_id = \'' . $user_id . '\' AND identity = '.$did;
+$site_process = $db->getOne($sql);
+
+$strpos = strpos($site_process, $steps_site);
 if ($strpos === false) {
 	if (!empty($site_process)) {
 		$site_process .= ',' . $steps_site;
@@ -127,8 +141,9 @@ if ($strpos === false) {
 	else {
 		$site_process = $steps_site;
 	}
-
-	$sql = 'update ' . $ecs->table('merchants_steps_fields') . ' set steps_site = \'' . $steps_site . '\', site_process = \'' . $site_process . '\' where user_id = \'' . $user_id . '\'';
+    
+	$sql = 'update ' . $ecs->table('merchants_steps_fields') . ' set steps_site = \'' . $steps_site . '\', site_process = \'' . $site_process . '\' where user_id = \'' . $user_id . '\' AND '.
+	"identity = ".$did;
 	$db->query($sql);
 }
 

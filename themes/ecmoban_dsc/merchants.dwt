@@ -35,7 +35,8 @@
             </div>
             <div class="help-home">
             	<a class="h-btn" href="{$url_merchants}?act=merchants_identity">我要入驻</a>
-                <a class="h-btn h-btn2" href="{$url_merchants_steps_site}">入驻进度查询</a>
+                <a class="h-btn h-btn2" href="{$url_merchants_steps_site}?deg=guide">入驻进度查询——导游</a>
+                <a class="h-btn h-btn2" href="{$url_merchants_steps_site}?deg=supplier">入驻进度查询——供应商</a>
             </div>
         </div>
     </div>

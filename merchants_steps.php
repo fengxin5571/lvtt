@@ -1,5 +1,8 @@
 <?php
-//dezend by  QQ:2172298892
+/*
+ *  导游、供应商入驻申请流程操作
+ * 
+ */
 define('IN_ECS', true);
 require dirname(__FILE__) . '/includes/init.php';
 include_once 'includes/cls_json.php';
@@ -162,26 +165,47 @@ if ($user_id <= 0) {//判断用户是否登录 ，未登录跳转相应页面（
 	show_message($_LANG['steps_UserLogin'],array($_LANG['UserLogin'],$_LANG['reg_now']),array("user.php","user.php?act=register"));
 	exit();
 }
-
-$sql = 'select steps_audit from ' . $ecs->table('merchants_shop_information') . ' where user_id = \'' . $_SESSION['user_id'] . '\'';
-$steps_audit = $db->getOne($sql);
-
-if ($steps_audit == 1) {
-	assign_template();
-	$position = assign_ur_here();
-	$smarty->assign('page_title', $position['title']);
-	$smarty->assign('ur_here', $position['ur_here']);
-	$step = 'stepSubmit';
-	$smarty->assign('pid_key', 0);
-	$smarty->assign('step', $step);
-	$sql = 'select shoprz_brandName, shopNameSuffix, shop_class_keyWords, hopeLoginName, merchants_audit, merchants_message from ' . $ecs->table('merchants_shop_information') . ' where user_id = \'' . $_SESSION['user_id'] . '\'';
-	$shop_info = $db->getRow($sql);
-	$shop_info['rz_shopName'] = str_replace('|', '', $shop_info['rz_shopName']);
-	$shop_info['shop_name'] = get_shop_name($_SESSION['user_id'], 1);
-	$smarty->assign('shop_info', $shop_info);
-	$smarty->display('merchants_steps.dwt');
-	exit();
+if($degree == 'guide'){
+    $sql = 'select steps_audit from ' . $ecs->table('guide_shop_information') . ' where user_id = \'' . $_SESSION['user_id'] . '\'';
+    $steps_audit = $db->getOne($sql);
+    if ($steps_audit == 1) {
+        assign_template();
+        $position = assign_ur_here();
+        $smarty->assign('page_title', $position['title']);
+        $smarty->assign('ur_here', $position['ur_here']);
+        $step = 'stepSubmit';
+        $smarty->assign('pid_key', 0);
+        $smarty->assign('step', $step);
+        $sql = 'select guide_name, login_name, guide_name, guide_audit, guides_message from ' . $ecs->table('guide_shop_information') . ' where user_id = \'' . $_SESSION['user_id'] . '\'';
+        $guide_info = $db->getRow($sql);
+        $smarty->assign('guide_info', $guide_info);
+        $smarty->assign("deg",$degree);
+        $smarty->display('merchants_steps.dwt');
+        exit();
+    }
+}elseif ($degree == 'supplier'){//供应商身份时判断是否提交了审核资料如有提交显示其审核结果
+    $sql = 'select steps_audit from ' . $ecs->table('merchants_shop_information') . ' where user_id = \'' . $_SESSION['user_id'] . '\'';
+    $steps_audit = $db->getOne($sql);
+    if ($steps_audit == 1) {
+        assign_template();
+        $position = assign_ur_here();
+        $smarty->assign('page_title', $position['title']);
+        $smarty->assign('ur_here', $position['ur_here']);
+        $step = 'stepSubmit';
+        $smarty->assign('pid_key', 0);
+        $smarty->assign('step', $step);
+        $sql = 'select shoprz_brandName, shopNameSuffix, shop_class_keyWords, hopeLoginName, merchants_audit, merchants_message from ' . $ecs->table('merchants_shop_information') . ' where user_id = \'' . $_SESSION['user_id'] . '\'';
+        $shop_info = $db->getRow($sql);
+        $shop_info['rz_shopName'] = str_replace('|', '', $shop_info['rz_shopName']);
+        $shop_info['shop_name'] = get_shop_name($_SESSION['user_id'], 1);
+        $smarty->assign('shop_info', $shop_info);
+        $smarty->assign("deg",$degree);
+        $smarty->display('merchants_steps.dwt');
+        exit();
+    }
 }
+
+
 
 if ($_REQUEST['del'] == 'deleteBrand') {
 	$sql = 'delete from ' . $ecs->table('merchants_shop_brand') . ' where bid = \'' . $ec_shop_bid . '\'';
@@ -194,11 +218,19 @@ if (0 < $b_fid) {
 	$sql = 'delete from ' . $ecs->table('merchants_shop_brandfile') . ' where b_fid = \'' . $b_fid . '\'';
 	$db->query($sql);
 }
+if($degree == 'guide'){//身份为导游时 查询此会员是否提交过入驻申请
+    $sql = 'select fid from ' . $ecs->table('merchants_steps_fields') . ' where user_id = \'' . $user_id . '\' AND identity = 1';
+    $fid = $db->getOne($sql);
+}else if($degree == 'supplier') {//身份为供应商时 查询此会员是否提交过入驻申请
+    $sql = 'select fid from ' . $ecs->table('merchants_steps_fields') . ' where user_id = \'' . $user_id . '\' AND identity = 0';
+    $fid = $db->getOne($sql);
+}
 
-$sql = 'select fid from ' . $ecs->table('merchants_steps_fields') . ' where user_id = \'' . $user_id . '\'';
-$fid = $db->getOne($sql);
+
+
 if (($fid <= 0) && (($_REQUEST['step'] == 'stepTwo') || ($_REQUEST['step'] == 'stepThree') || ($_REQUEST['step'] == 'stepSubmit'))) {
-	ecs_header("Location: merchants.php\n");
+    var_dump($_REQUEST['step']);
+    ecs_header("Location: merchants.php\n");
 	exit();
 }
 else if (0 < $fid) {
@@ -212,7 +244,9 @@ if (!empty($step) && ($step == 'stepTwo')) {
 }
 else {
 	if (!empty($step) && ($step == 'stepThree')) {
+	   
 		$sid = 3;
+		
 	}
 	else {
 		if (!empty($step) && ($step == 'stepSubmit')) {
@@ -233,15 +267,18 @@ if (!$smarty->is_cached('merchants_steps.dwt')) {
 	$smarty->assign('step', $step);
 	$smarty->assign('sid', $sid);
 	if ((1 < $sid) && ($sid < 4)) {
+	   
 		$sql = 'delete from ' . $ecs->table('merchants_category_temporarydate') . ' where user_id = \'' . $user_id . '\' and is_add = 0';
 		$db->query($sql);
 		$consignee['country'] = 1;
 		$consignee['province'] = 0;
 		$consignee['city'] = 0;
 		$country_list = get_regions_steps();
+		
 		$province_list = get_regions_steps(1, $consignee['country']);
 		$city_list = get_regions_steps(2, $consignee['province']);
 		$district_list = get_regions_steps(3, $consignee['city']);
+		
 		$sn = 0;
 		$smarty->assign('country_list', $country_list);
 		$smarty->assign('province_list', $province_list);
@@ -251,7 +288,21 @@ if (!$smarty->is_cached('merchants_steps.dwt')) {
 		$smarty->assign('sn', $sn);
 		$smarty->assign('deg', $degree);
 		if($degree == "guide"){
+		    if($sid == 3){// 导游身份入驻，步骤3时提交申请
+		        $sql ='select * from '.$ecs->table('merchants_steps_fields').' where user_id ='. $user_id .' AND identity =1';
+		        $guide_fields=$db->getRow($sql);
+		        if($guide_fields){
+		          $parent['user_id'] = $guide_fields['user_id'];
+		          $parent['guide_name'] = $guide_fields['contactName'];
+		          $parent['steps_audit'] = 1;
+		          $db->autoExecute($ecs->table('guide_shop_information'), $parent,'INSERT');
+		        }
+		        $Location = 'merchants_steps.php?deg=guide';
+			    ecs_header('Location: ' . $Location . "\n");
+			    exit();
+		    }
 		    $process_list = get_root_steps_process_list($sid,1);
+		    
 		}else if($degree == 'supplier'){
 		    $process_list = get_root_steps_process_list($sid,0);
 		}
@@ -263,7 +314,7 @@ if (!$smarty->is_cached('merchants_steps.dwt')) {
 			ecs_header('Location: ' . $Location . "\n");
 			exit();
 		}
-
+  
 		if ($process['process_title'] == '添加品牌') {
 			$smarty->assign('b_pidKey', $pid_key);
 			$smarty->assign('ec_shop_bid', $ec_shop_bid);
@@ -283,21 +334,24 @@ if (!$smarty->is_cached('merchants_steps.dwt')) {
 			$smarty->assign('pid_key', $pid_key - 1);
 		}
 		else {
+		    
 			$smarty->assign('pid_key', $pid_key + 1);
 		}
-
+        
 		$smarty->assign('process', $process);
 		$smarty->assign('brandView', $brandView);
 		$smarty->assign('choose_process', $GLOBALS['_CFG']['choose_process']);
 
 		if (0 < $process['id']) {
-			$category_info = get_fine_category_info(0, $user_id);
+		    
+			$category_info = get_fine_category_info(0, $user_id);//获取经营类目
 			$smarty->assign('category_info', $category_info);
 			$permanent_list = get_category_permanent_list($_SESSION['user_id']);
 			$smarty->assign('permanent_list', $permanent_list);
-			$steps_title = get_root_merchants_steps_title($process['id'], $user_id);
+			$steps_title = get_root_merchants_steps_title($process['id'], $user_id,($degree == 'guide'?1:0));
 			$smarty->assign('steps_title', $steps_title);
 		}
+		
 	}
 
 	else if ($sid == 1) {//入驻步骤为1时获取后台“申请入驻流程”的第一步入驻需知

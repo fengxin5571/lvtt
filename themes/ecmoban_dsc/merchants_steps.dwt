@@ -65,16 +65,24 @@
                 <div class="arrow-background"></div>
                 <div class="arrow-foreground"></div>
             </div>
-            <div class="progress-item {if $sid eq 1 }tobe{elseif  $sid eq 2}tobe{elseif  $sid eq 3}ongoing{else}passed{/if}">
-                <div class="number">3</div>
-                <div class="progress-desc">店铺信息认证</div>
-                <div class="arrow-background"></div>
-                <div class="arrow-foreground"></div>
-            </div>
+            {if $deg eq 'guide'}
             <div class="progress-item {if $sid eq 1 }tobe{elseif  $sid eq 2}tobe{elseif  $sid eq 3}tobe{else}ongoing{/if}">
-                <div class="number">4</div>
+                <div class="number">3</div>
                 <div class="progress-desc">等待审核</div>
             </div>
+            {else}
+	            <div class="progress-item {if $sid eq 1 }tobe{elseif  $sid eq 2}tobe{elseif  $sid eq 3}ongoing{else}passed{/if}">
+	                <div class="number">3</div>
+	                <div class="progress-desc">店铺信息认证</div>
+	                <div class="arrow-background"></div>
+	                <div class="arrow-foreground"></div>
+	            </div>
+	           
+	            <div class="progress-item {if $sid eq 1 }tobe{elseif  $sid eq 2}tobe{elseif  $sid eq 3}tobe{else}ongoing{/if}">
+	                <div class="number">4</div>
+	                <div class="progress-desc">等待审核</div>
+	            </div>
+            {/if}
         </div>
         <div class="panel-content">
         	<div class="bg-top"></div>
@@ -106,10 +114,16 @@
             </div>
             <div class="progress-item {if $sid eq 1}tobe{elseif  $sid eq 2}ongoing{elseif  $sid eq 3}passed{else}passed{/if}">
                 <div class="number">2</div>
-                <div class="progress-desc">{if $deg eq 'guide'}导游信息认证{else}公司信息认证{/if}</div>
+                <div class="progress-desc">{if $deg eq 'guide'}导游信息认证{else}公司信息认证{/if} </div>
                 <div class="arrow-background"></div>
                 <div class="arrow-foreground"></div>
             </div>
+            {if $deg eq 'guide'}
+            <div class="progress-item {if $sid eq 1 }tobe{elseif  $sid eq 2}tobe{elseif  $sid eq 3}tobe{else}ongoing{/if}">
+                <div class="number">3</div>
+                <div class="progress-desc">等待审核</div>
+            </div>
+            {else}
             <div class="progress-item {if $sid eq 1}tobe{elseif  $sid eq 2}tobe{elseif  $sid eq 3}ongoing{else}passed{/if}">
                 <div class="number">3</div>
                 <div class="progress-desc">店铺信息认证</div>
@@ -120,6 +134,7 @@
                 <div class="number">4</div>
                 <div class="progress-desc">等待审核</div>
             </div>
+            {/if}
         </div>
         {if $step neq 'stepSubmit'}
         <form enctype="multipart/form-data" id="stepForm" method="post" action="merchants_steps_action.php" name="stepForm" onsubmit="return validate();">
@@ -183,44 +198,85 @@
             </div>
         </form>
         {else}
-			<div class="panel-content">
-            	<div class="bg-top"></div>
-                <div class="bg-warp pannel_end">
-                	<div class="settled-state">
-                        {if $shop_info.merchants_audit eq 0}
-                        <span>正在审核中...</span>
-                        {elseif $shop_info.merchants_audit eq 1}
-                        <span>审核已通过...</span>
-                        {elseif $shop_info.merchants_audit eq 2}
-                        <span>未审核通过...</span>
-                            {if $shop_info.merchants_message}
-                            <span>{$shop_info.merchants_message}</span>
-                            {/if}
-                        {/if}
-                	</div>
-                	<h3 class="ordertitle">感谢您在本店申请商家入驻！</h3>
-                    {if $shop_info.merchants_audit eq 1}
-                    <div class="item">
-                        <div class="label">您的商家入驻管理中心登录账号：</div>
-                        <strong class="orange2">{$shop_info.hopeLoginName}</strong>
-                    </div>
-                    <div class="item" style="display:none">
-                    	<div class="label">密码：</div>
-                    	<strong class="orange2">已发送手机短信，请您查收</strong>
-                    </div>
-                    {/if}
-                    
-                    <div class="item">
-                    	<div class="label">期望店铺名称：</div>
-                        <strong class="orange2">{$shop_info.shop_name}</strong>
-                    </div>
-                    
-                    <div class="item"><div class="label">店铺描述：</div><strong class="orange2">{$shop_info.shop_class_keyWords}</strong></div>
-                    
-                    <div class="setted-footer"><a href="index.php">返回首页</a><a href="user.php">用户中心</a><a href="user.php?act=merchants_upgrade">商家等级</a></div>
-                </div>
-                <div class="bg-bottom"></div>
-            </div>
+        	{if $deg eq 'supplier'}
+				<div class="panel-content">
+	            	<div class="bg-top"></div>
+	                <div class="bg-warp pannel_end">
+	                	<div class="settled-state">
+	                        {if $shop_info.merchants_audit eq 0}
+	                        <span>正在审核中...</span>
+	                        {elseif $shop_info.merchants_audit eq 1}
+	                        <span>审核已通过...</span>
+	                        {elseif $shop_info.merchants_audit eq 2}
+	                        <span>未审核通过...</span>
+	                            {if $shop_info.merchants_message}
+	                            <span>{$shop_info.merchants_message}</span>
+	                            {/if}
+	                        {/if}
+	                	</div>
+	                	<h3 class="ordertitle">感谢您在本店申请商家入驻！</h3>
+	                    {if $shop_info.merchants_audit eq 1}
+	                    <div class="item">
+	                        <div class="label">您的商家入驻管理中心登录账号：</div>
+	                        <strong class="orange2">{$shop_info.hopeLoginName}</strong>
+	                    </div>
+	                    <div class="item" style="display:none">
+	                    	<div class="label">密码：</div>
+	                    	<strong class="orange2">已发送手机短信，请您查收</strong>
+	                    </div>
+	                    {/if}
+	                    
+	                    <div class="item">
+	                    	<div class="label">期望店铺名称：</div>
+	                        <strong class="orange2">{$shop_info.shop_name}</strong>
+	                    </div>
+	                    
+	                    <div class="item"><div class="label">店铺描述：</div><strong class="orange2">{$shop_info.shop_class_keyWords}</strong></div>
+	                    
+	                    <div class="setted-footer"><a href="index.php">返回首页</a><a href="user.php">用户中心</a><a href="user.php?act=merchants_upgrade">商家等级</a></div>
+	                </div>
+	                <div class="bg-bottom"></div>
+	            </div>
+            {else if $deg eq 'guide'}
+	            <div class="panel-content">
+	            	<div class="bg-top"></div>
+	                <div class="bg-warp pannel_end">
+	                	<div class="settled-state">
+	                        {if $guide_info.guide_audit eq 0}
+	                        <span>正在审核中...</span>
+	                        {elseif $guide_info.guide_audit eq 1}
+	                        <span>审核已通过...</span>
+	                        {elseif $guide_info.guide_audit eq 2}
+	                        <span>未审核通过...</span>
+	                            {if $guide_info.guides_message}
+	                            <span>{$guide_info.guides_message}</span>
+	                            {/if}
+	                        {/if}
+	                	</div>
+	                	<h3 class="ordertitle">感谢您在本平台申请入驻成为导游！</h3>
+	                    {if $guide_info.guide_audit eq 1}
+	                    <div class="item">
+	                        <div class="label">您的导游入驻管理中心登录账号：</div>
+	                        <strong class="orange2">{$guide_info.login_name}</strong>
+	                    </div>
+	                    <div class="item" style="display:block">
+	                    	<div class="label">密码：</div>
+	                    	<strong class="orange2">已发送手机短信，请您查收</strong>
+	                    </div>
+	                    {/if}
+	                    
+	                    <div class="item">
+	                    	<div class="label">您的导游名字：</div>
+	                        <strong class="orange2">{$guide_info.guide_name}</strong>
+	                    </div>
+	                    
+	                    <div class="item"><div class="label">您的导游证照片：</div><strong class="orange2"></strong></div>
+	                    
+	                    <div class="setted-footer"><a href="index.php">返回首页</a><a href="user.php">用户中心</a>{if $guide_info.guide_audit eq 1 }<a href="seller/">导游管理后台</a>{/if}</div>
+	                </div>
+	                <div class="bg-bottom"></div>
+	            </div>
+            {/if}
         {/if}
     </div>
     {/if}

@@ -218,7 +218,6 @@ listTable.loadList = function()
 {
 	
   var args = "act="+this.query+"" + this.compileFilter();
-  
   $(".refresh_tit").addClass("loading");
   
   Ajax.call(this.url, args, this.listCallback, "POST", "JSON");
@@ -286,12 +285,14 @@ listTable.changePageSize = function(e)
 
 listTable.listCallback = function(result, txt)
 {
+  
   if (result.error > 0)
   {
     alert(result.message);
   }
   else
   {
+	 
     try
     {
 		
