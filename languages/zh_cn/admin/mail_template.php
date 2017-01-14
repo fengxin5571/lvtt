@@ -25,6 +25,7 @@ $_LANG['seller_signin'] = '商家登录信息模板';
 $_LANG['sale_notice'] = '商品降价通知模板';
 $_LANG['merchants_allpy_grade'] = '商家店铺升级模板';
 $_LANG['user_register'] = '会员注册模板';
+$_LANG['send_guide_password'] = '发送导游登录密码模板';
 $_LANG['subject_empty'] = '对不起，邮件的主题不能为空。';
 $_LANG['content_empty'] = '对不起，邮件的内容不能为空。';
 $_LANG['js_languages']['save_confirm'] = '您已经修改了模板内容，您确定不保存么？';

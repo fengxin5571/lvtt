@@ -146,7 +146,6 @@ function get_contents_section($dir = '')
 		require ROOT_PATH . 'temp/static_caches/cat_goods_config.php';
 	}
 }
-
 function send_mail($name, $email, $subject, $content, $type = 0, $notification = false)
 {
 	if ($GLOBALS['_CFG']['mail_charset'] != EC_CHARSET) {

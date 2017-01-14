@@ -36,7 +36,7 @@ else if ($_REQUEST['act'] == 'query') { //aiax查询
     $smarty->assign($sort_flag['tag'], $sort_flag['img']);
     make_json_result($smarty->fetch('guides_users_list.dwt'), '', array('filter' => $users_list['filter'], 'page_count' => $users_list['page_count']));
 }
-if (($_REQUEST['act'] == 'add_guide') || ($_REQUEST['act'] == 'edit_guide')) {//添加、编辑导游界面
+if (($_REQUEST['act'] == 'add_guide') || ($_REQUEST['act'] == 'edit_guide')) {//添加、编辑导游界面显示
     admin_priv('users_guides');
     $user_id = (isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0);
    //$login_name = (isset($_REQUEST['login_name']) ? trim($_REQUEST['login_name']) : '');//导游登录名称
@@ -46,9 +46,7 @@ if (($_REQUEST['act'] == 'add_guide') || ($_REQUEST['act'] == 'edit_guide')) {//
         $guideInfo_list['guide_info']['login_name']="lvtt_".$login_suffix;
     }
     $smarty->assign('guideInfo_list', $guideInfo_list);
-    $smarty->assign('action_link', array('text' => $_LANG['02_merchants_users_list'], 'href' => 'guides_users_list.php?act=list'));
-    $seller_grade_list = $db->getAll(' SELECT * FROM' . $ecs->table('seller_grade'));
-    $smarty->assign('seller_grade_list', $seller_grade_list);
+    $smarty->assign('action_link', array('text' => $_LANG['02_guies_users_list'], 'href' => 'guides_users_list.php?act=list'));
     $country_list = get_regions_steps();
     $province_list = get_regions_steps(1, 1);
     $city_list = get_regions_steps(2, $consignee['province']);
@@ -73,9 +71,10 @@ if (($_REQUEST['act'] == 'add_guide') || ($_REQUEST['act'] == 'edit_guide')) {//
     $smarty->assign('sn', $sn);
     $smarty->assign('user_id', $user_id);
 
-    if ($_REQUEST['act'] == 'edit_guide') {
-        $seller_shopinfo = get_shop_name($user_id, 2);
-        $smarty->assign('seller_shopinfo', $seller_shopinfo);
+    if ($_REQUEST['act'] == 'edit_guide') { //如果是编辑导游
+        $sql = 'select user_id, user_name from '.$ecs->table('users') .'where user_id = '.$user_id;
+        $user_info=$db->getRow($sql);
+        $smarty->assign('user_info',$user_info);
         $smarty->assign('form_action', 'update_guide');
     }
     else {
@@ -111,6 +110,10 @@ else if (($_REQUEST['act'] == 'insert_guide') || ($_REQUEST['act'] == 'update_gu
     if($guide_audit ==1){
         $info['login_name'] = $login_name;
         $info['password'] = md5($password);
+        $is_show = 1;
+    }else if($guide_audit ==2){
+        $info['login_name'] = "";
+        $info['password'] = '';
     }
     $info['guide_audit'] = $guide_audit;
     $info['review_goods'] = $review_goods;
@@ -147,7 +150,15 @@ else if (($_REQUEST['act'] == 'insert_guide') || ($_REQUEST['act'] == 'update_gu
         
         $GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('guide_shop_information'), $info, 'INSERT');
     }
-    
+    if($info['guide_audit'] == 1 && !empty($parent['contactEmail'])){//审核通过后发送导游登录账号密码到其邮箱
+        $template = get_mail_template('send_guide_password');//获取邮件模板
+        $email= $parent['contactEmail'];
+        $smarty->assign('send_date', date('Y-m-d'));
+        $smarty->assign("send_loginname", $info['login_name']);
+        $smarty->assign("send_password", $password);
+        $content = $smarty->fetch('str:' . $template['template_content']);
+        send_mail($user_name, $email, $template['template_subject'], $content, $template['is_html']);
+    }
 
     if ($_REQUEST['act'] == 'update_guide') {
         $centent = $_LANG['update_success'];
@@ -390,6 +401,14 @@ function get_admin_steps_title_insert_form($user_id)
     $after_arr['formName'] = substr($after_arr['formName'], 0, -1);
     return $after_arr;
 }
+/*
+ * 获取随机数
+ *
+ * @param  $length     长度
+ *         $mumeric    传入数值  不为0则 生产带字符串的随机码
+ *
+ * @return $hash
+ */
 function random($length = 6, $numeric = 0)
 {
     (PHP_VERSION < '4.2.0') && mt_srand((double) microtime() * 1000000);

@@ -20,6 +20,7 @@ $_LANG['not_apply'] = '尚不能审核';
 $_LANG['login_name'] = '登录名称';
 $_LANG['login_passwarp'] = '密&nbsp;&nbsp;码';
 $_LANG['user_select_please'] = '请选择会员';
+$_LANG['user_info'] = '会员信息';
 $_LANG['config_guide_login'] ='设置导游登录账号密码';
 $_LANG['insert_fail'] = '添加失败,此会员已入驻导游';
 $_LANG['admin_operation'] = '管理员操作';
