@@ -151,7 +151,7 @@ else {
 	$smarty->assign('priv_ru', 0);
 }
 
-if ($_REQUEST['act'] == 'list') {
+if ($_REQUEST['act'] == 'list') {//会员列表展示
 	admin_priv('users_manage');
 	$sql = 'SELECT rank_id, rank_name, min_points FROM ' . $ecs->table('user_rank') . ' ORDER BY min_points ASC ';
 	$rs = $db->query($sql);

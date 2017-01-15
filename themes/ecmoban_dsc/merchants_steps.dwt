@@ -261,7 +261,7 @@
 	                    </div>
 	                    <div class="item" style="display:block">
 	                    	<div class="label">密码：</div>
-	                    	<strong class="orange2">已发送手机短信，请您查收</strong>
+	                    	<strong class="orange2">已发送到您的邮箱，请您查收--如为收到相关邮件请拨打平台客服电话：{$service_phone}</strong>
 	                    </div>
 	                    {/if}
 	                    
