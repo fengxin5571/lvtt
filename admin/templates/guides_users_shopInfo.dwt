@@ -1,0 +1,485 @@
+<!doctype html>
+<html>
+<head>{include file ='library/admin_html_head.lbi'}</head>
+
+<body class="iframe_body">
+	<div class="warpper">
+    	<div class="title"><a href="{$action_link.href}" class="s-back">{$lang.back}</a>导游 - 入驻导游列表</div>
+        <div class="content">
+        	<div class="explanation" id="explanation">
+            	<div class="ex_tit"><i class="sc_icon"></i><h4>操作提示</h4><span id="explanationZoom" title="收起提示"></span></div>
+                <ul>
+                	<li>标识“<em>*</em>”的选项为必填项，其余为选填项。</li>
+                    <li>请先选择平台已注册会员进行添加导游操作。</li>
+                    <li>请根据提示信息准确无误填写导游信息。</li>
+                </ul>
+            </div>
+            <div class="flexilist">
+                <div class="common-content">
+				<form method="post" enctype="multipart/form-data" action="guides_users_list.php" name="theForm" id="merchants_users_list_form">
+                	<div class="mian-info">
+                    	<div class="switch_info business_info">
+							{if $user_id eq 0}
+                        	<div class="step">
+                            	<div class="tit"><h4>{$lang.user_select_please}</h4></div>
+                               	<div class="items">
+                               	
+                                	<div class="item">
+                                    	<div class="label"><em class="require-field">*</em>{$lang.steps_user_name}</div>
+                                        <div class="value nt_value">
+                                        	<div class="selection_select">
+                                                <div class="selection">
+                                                    <input type="text" name="user_name" id="user_name" class="text w140 valid" autocomplete="off" value="" readonly>
+                                                    <input type="hidden" name="user_id" id="user_id" value="">
+                                                </div>
+                                                <div class="select-container" style="display:none;">
+                                                    <div class="select-top2">
+                                                        <div class="s_search"><input name="userName" id="userName" type="text" class="s_text" placeholder="{$lang.search_key}"><a href="javascript:void(0);" onclick="get_search_user()" class="btn-mini"><i class="icon icon-search"></i></a></div>
+                                                    </div>
+                                                    <div class="select-list2" id="user_list">
+                                                        <ul >
+														{foreach from=$user_list item=user}
+                                                            <li data-name="{$user.user_name}" data-id="{$user.user_id}">{$user.user_name}</li>
+														{/foreach}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form_prompt"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {else}
+                            <div class="step">
+                            	<div class="tit"><h4>{$lang.user_info}</h4></div>
+                            	<div class="items">
+                            		<div class="item">
+                            			<div class="label">{$lang.steps_user_name}：</div>
+                            		{$user_info.user_name}
+                            		</div>
+                            	</div>
+                            </div>
+							{/if}
+							
+							{foreach from=$guideInfo_list item=shopInfo key=key}
+								{foreach from=$shopInfo.steps_title item=title}  
+									{if $title.steps_style eq 0}
+										{include file="merchants_steps_basicType.dwt"}
+									
+									{/if}
+									
+								{/foreach}
+							{/foreach}
+							<div class="step">
+								<div class="tit"><h4>{$lang.admin_operation}</h4></div>
+								<div class="items items_w60">
+									{if $user_id > 0}
+									<div class="item">
+										<div class="label">{$lang.user_sub_status}：</div>
+										<div class="value red">{if $guides.steps_audit eq 1}{$lang.already_sub}{else}{$lang.not_sub}{/if}</div>
+									</div>
+									{/if}
+									<div class="item">
+										<div class="label">{$lang.setup_audit}：</div>
+										<div class="value">
+                                        	<div class="checkbox_items">
+                                                {if $user_id > 0}
+                                                <div class="checkbox_item">
+                                                    <input name="review_goods" type="radio" value="0" class="ui-radio" id="review_no" {if $guides.review_goods eq 0}checked="checked"{/if} />
+                                                    <label for="review_no" class="ui-radio-label">{$lang.no}</label>
+                                                </div>
+                                                <div class="checkbox_item">
+                                                    <input name="review_goods" type="radio" value="1" class="ui-radio" id="review_yes" {if $guides.review_goods eq 1}checked="checked"{/if} />
+                                                    <label for="review_yes" class="ui-radio-label">{$lang.yes}</label>
+                                                </div>
+                                                {else}
+                                                <div class="checkbox_item">
+                                                    <input name="review_goods" type="radio" value="0" class="ui-radio" id="review_no" />
+                                                    <label for="review_no" class="ui-radio-label">{$lang.no}</label>
+                                                </div>
+                                                <div class="checkbox_item">
+                                                    <input name="review_goods" type="radio" value="1" class="ui-radio" id="review_yes" checked="checked" />
+                                                    <label for="review_yes" class="ui-radio-label">{$lang.yes}</label>
+                                                </div>
+                                                {/if}
+                                            </div>
+										</div>
+									</div>
+									
+									<div class="item">
+										<div class="label">{$lang.is_show}：</div>
+										<div class="value">
+											<div class="checkbox_items">
+												  {if $user_id > 0}
+												      
+												  	   <div class="checkbox_item">
+														   <input name="is_show" type="radio" value="0" class="ui-radio" id="is_show_no" {if $guides.is_show eq 0}checked="checked"{/if} />
+			                                               <label for="is_show_no" class="ui-radio-label">{$lang.no}</label>
+	                                                 </div>
+											 	  <div class="checkbox_item">
+														  <input name="is_show" type="radio" value="1" class="ui-radio" id="is_show_yes" {if $guides.is_show eq 1}checked="checked"{/if}/>
+			                                              <label for="is_show_yes" class="ui-radio-label">{$lang.yes}</label>
+	                                              </div>
+												  {else}
+												      <div class="checkbox_item">
+														 <input name="is_show" type="radio" value="0" class="ui-radio" id="is_show_no" />
+			                                             <label for="is_show_no" class="ui-radio-label">{$lang.no}</label>
+		                                              </div>
+												 	  <div class="checkbox_item">
+														 <input name="is_show" type="radio" value="1" class="ui-radio" id="is_show_yes" checked="checked"/>
+			                                             <label for="is_show_yes" class="ui-radio-label">{$lang.yes}</label>
+		                                              </div>
+	                                             {/if}
+											</div>
+										</div>
+									</div>
+								    
+									<div class="item">
+										<div class="label">{$lang.guide_info_audit}：</div>
+										<div class="value">
+                                        	<div class="checkbox_items">
+											{if $user_id > 0}
+												{if $guides.steps_audit eq 1}
+                                                <div class="checkbox_item">
+                                                    <input type="radio" name="guide_audit" value="0" id="merchants_audit_0" class="ui-radio" {if $guides.guide_audit eq 0}checked="checked"{/if} onclick="get_merchants_audit(this.value)" />
+                                                    <label for="merchants_audit_0" class="ui-radio-label">{$lang.not_audited}</label>
+                                                </div>
+                                                <div class="checkbox_item">
+                                                    <input type="radio" name="guide_audit" value="1" id="merchants_audit_1" class="ui-radio" {if $guides.guide_audit eq 1}checked="checked"{/if} onclick="get_merchants_audit(this.value)" />
+                                                    <label for="merchants_audit_1" class="ui-radio-label">{$lang.yes_through}</label>
+                                                </div>
+                                                <div class="checkbox_item">
+                                                    <input type="radio" name="guide_audit" value="2" id="merchants_audit_2" class="ui-radio" {if $guides.guide_audit eq 2}checked="checked"{/if} onclick="get_merchants_audit(this.value)" />
+                                                    <label for="merchants_audit_2" class="ui-radio-label">{$lang.not_through}</label>
+                                                </div>
+												{else}
+												<font class="red">{$lang.not_apply}</font>
+												{/if}
+											 {else}
+                                             	<!--  <div class="checkbox_item">
+                                                    <input type="radio" name="guide_audit" value="0" id="merchants_audit_0" class="ui-radio" onclick="get_merchants_audit(this.value)" checked="checked"/>
+                                                    <label for="merchants_audit_0" class="ui-radio-label">{$lang.not_audited}</label>
+                                                </div>-->
+                                                <div class="checkbox_item">
+                                                    <input type="radio" name="guide_audit" value="1" id="merchants_audit_1" class="ui-radio"  onclick="get_merchants_audit(this.value)" checked="checked" />
+                                                    <label for="merchants_audit_1" class="ui-radio-label">{$lang.yes_through}</label>
+                                                </div>
+                                                <!-- <div class="checkbox_item">
+                                                    <input type="radio" name="guide_audit" value="2" id="merchants_audit_2" class="ui-radio" onclick="get_merchants_audit(this.value)" />
+                                                    <label for="merchants_audit_2" class="ui-radio-label">{$lang.not_through}</label>
+                                                </div> -->
+											 {/if}
+                                             </div>
+										</div>
+									</div>	
+									{if $user_id >0}
+									     
+										<div class='item' style="display:{if $guides.guide_audit eq 1}block{else}none{/if}" id="check_guide_login">
+											<div class='step'>
+											    
+										    	<div class="tit"><h4>{$lang.config_guide_login}</h4></div>
+											    <div class="items">
+													<div class="item">
+														<div class="label">{$lang.login_name}：</div>
+														<div class="value nt_value"><input name="login_name" type="text" value="{$guideInfo_list.guide_info.login_name}" class="text"><div class="form_prompt" style="float:left;"></div></div>
+														
+													</div>
+													<div class="item">
+														<div class="label">{$lang.login_passwarp}：</div>
+														<div class="value"><input name="login_password" type="password" id="password_val" value="" class="text"><div class="fl org">为空则为初始密码123456</div ></div></div>
+													</div>		
+										    	</div>
+									       </div>	
+								       </div>
+								    			
+								   {else}
+								   <div class='item'  >
+										<div class='step'>
+									    	<div class="tit"><h4>{$lang.config_guide_login}</h4></div>
+										    <div class="items">
+												<div class="item">
+													<div class="label">{$lang.login_name}：</div>
+													<div class="value nt_value"><input name="login_name" type="text" value="{$guideInfo_list.guide_info.login_name}" class="text"><div class="form_prompt" style="float:left;"></div></div>
+													
+												</div>
+												<div class="item">
+													<div class="label">{$lang.login_passwarp}：</div>
+													<div class="value"><input name="login_password" type="password" id="password_val" value="" class="text"><div class="fl org">为空则为初始密码123456</div ></div></div>
+												</div>		
+									    	</div>
+								       </div>	
+							       </div>			
+								   {/if}
+                                    
+									{if $guides.steps_audit eq 1}	
+													
+									<div class="item" style="display:{if $guides.guide_audit eq 2}block{else}none{/if}" id="tr_merchantsAudit">
+										<div class="label">{$lang.reply_seller}：</div>
+										<div class="value">
+											<textarea name="guides_message" class="textarea h100">{$guides.guides_message}</textarea>
+										</div>
+									</div>
+									{/if}
+								</div>
+							</div>
+							<div class="step">
+								<div class="items">
+                                    <div class="item">
+                                        <div class="label">&nbsp;</div>
+                                        <div class="value info_btn">
+                                        <input name="numAdd" value="1" id="numAdd" type="hidden" />
+                                        <input type="submit" value="{$lang.button_submit}" class="button" id="submitBtn" />
+                                        <input type="reset" value="{$lang.button_reset}" class="button button_reset" />
+                                        <input type="hidden" name="act" value="{$form_action}" />
+                                        {if $user_id > 0}
+                                        <input type="hidden" name="user_id" value="{$user_id}" id="user_id" /> 
+                                        {/if}
+                                        </div>
+                                    </div>
+								</div>
+							</div>
+							<!--<ul ectype="region" style="display:none;">
+							{foreach from=$regions item=v key=k}
+							<li data-index='{$k}'>{$v}</li>
+							{/foreach}
+							</ul>-->
+                        </div>
+                    </div>
+				</form>
+                </div>
+            </div>
+        </div>
+    </div>
+ 	{include file ='library/pagefooter.lbi'}
+    <script type="text/javascript" src="js/region.js"></script>
+    <script type="text/javascript" src="js/jquery.picTip.js"></script>
+	<script type="text/javascript" src="js/jquery.purebox.js"></script>
+	<script type="text/javascript">
+		if($('.ui-dropdown input').val() == $('ul[ectype=region] li').data('index')){
+			
+		}
+	
+		$(function(){
+			//点击查看图片
+			$('.nyroModal').nyroModal();
+			
+			//表单验证
+			$("#submitBtn").click(function(){
+				if($("#merchants_users_list_form").valid()){
+					$("#merchants_users_list_form").submit();
+				}
+			});
+		
+			$('#merchants_users_list_form').validate({
+				errorPlacement:function(error, element){
+					var error_div = element.parents('div.nt_value').find('div.form_prompt');
+					element.parents('div.nt_value').find(".notic").hide();
+					error_div.append(error);
+				},
+				rules:{
+					user_name :{
+						required : true
+					},
+					ec_rz_shopName:{
+						required : true
+					},
+					ec_hopeLoginName:{
+						required : true
+					},
+					contactName :{
+						required : true
+					},
+					contactPhone:{
+						required : true,
+						mobile   : true
+					},
+					contactEmail:{
+						required : true,
+						email: true
+					},
+					personalNo  :{
+						required : true,
+						id_card  : true
+					},
+					guide_qualification_no :{
+						required :true
+					},
+					login_name  :{
+						required :true
+					},
+					
+				},
+				messages:{
+					user_name:{
+						 required : '<i class="icon icon-exclamation-sign"></i>请选择会员'
+					},
+					ec_rz_shopName:{
+						required : '<i class="icon icon-exclamation-sign"></i>请填写期望店铺名称'
+					},
+					ec_hopeLoginName:{
+						required : '<i class="icon icon-exclamation-sign"></i>请填写期望店铺登陆用户名'
+					},
+					contactName :{
+						required : '<i class="icon icon-exclamation-sign"></i>请填写真实姓名'
+					},
+					contactPhone:{
+						required : '<i class="icon icon-exclamation-sign"></i>请填写联系人手机',
+						mobile   : '<i class="icon icon-exclamation-sign"></i>请填写正确的手机号码'
+					},
+					contactEmail:{
+						required : '<i class="icon icon-exclamation-sign"></i>请填写联系人邮箱',
+						email    : '<i class="icon icon-exclamation-sign"></i>请填写正确的邮箱'
+					},
+					personalNo  :{
+						required : '<i class="icon icon-exclamation-sign"></i>请填写身份证号',
+						id_card  :  '<i class="icon icon-exclamation-sign"></i>请填写正确的身份证号'
+					},
+					guide_qualification_no :{
+						required : '<i class="icon icon-exclamation-sign"></i>请填写导游资格证号'
+					},
+					login_name  :{
+						required : '<i class="icon icon-exclamation-sign"></i>请填写登录名称'
+					},
+				}			
+			});
+			
+			//全选
+			$("input[name='all_list']").click(function(){
+				if($(this).prop("checked")==true){
+					$(this).parents(".category_checkbox_list").find("input[type='checkbox']").prop("checked",true);
+				}else{
+					$(this).parents(".category_checkbox_list").find("input[type='checkbox']").prop("checked",false);
+				}
+			});
+		});
+		
+		//地区三级联动
+		$.levelLink();
+        
+		
+		
+		
+    
+		function addBrand(){
+			var ec_bank_name_letter = $("#ec_bank_name_letter").val();
+			var ec_brandName=$("#ec_brandName").val();
+			var ec_brandFirstChar=$("#ec_brandFirstChar").val();
+			var ec_brandLogo =$("#ec_brandLogo").val();
+			if(ec_brandLogo.length >0){
+					type=ec_brandLogo.match(/^(.*)(\.)(.{1,8})$/)[3];
+					type=type.toUpperCase();
+					if(type!="JPEG"   &&   type!="PNG"   &&   type!="JPG"   &&   type!="GIF"){
+						alert("上传图片类型错误"); 
+						return false;
+					}
+				}
+			if(ec_brandName.length == 0){
+				alert("品牌中文名称不能为空");
+			}else if(ec_bank_name_letter.length == 0){
+				alert("品牌英文名称不能为空");
+			}else if(ec_brandFirstChar.length == 0){
+				alert("品牌首字母不能为空");
+			}else{
+				var actionUrl = "merchants_users_list.php?is_ajax=1&act=addImg&user_id={$user_id}";  
+				$("#addBatchImg_from").ajaxSubmit({
+					type: "POST",
+					dataType: "json",
+					url: actionUrl,
+					data: { "action": "TemporaryImage" },
+					success: function (data) {
+						if (data.error == "1") {
+						  alert(data.massege);
+						} else if (data.error == "2") {
+						   $("#brandList").html(data.content);
+						}
+					},
+					async: true  
+				});
+			}
+		}
+		
+		
+	
+		function get_merchants_audit(val){
+			var audit = document.getElementById('tr_merchantsAudit');
+			var gudie_login = document.getElementById('check_guide_login');
+			if(val == 2){
+				audit.style.display = 'block';
+				gudie_login.style.display = 'none';
+			}else if(val == 1){
+				gudie_login.style.display = 'block';
+				audit.style.display = 'none';
+			}
+			else{
+				
+				gudie_login.style.display = 'none';
+				audit.style.display = 'none';
+			}
+			
+		}
+		
+		function get_categoryId_permanent(f, permanent_date, dt_id){
+			var categoryId = document.getElementById('categoryId_date_' + dt_id);
+			if(f.checked){
+				categoryId.value = '';
+			}else{
+				if(permanent_date != ''){
+					categoryId.value = permanent_date;
+				}
+			}
+		}
+		
+		function get_expiredDate_permanent(f, expiredDateInput, b_fid){
+			if(b_fid > 0){
+				var expiredDate = document.getElementById('expiredDateInput_' + b_fid);
+				if(f.checked){
+					expiredDate.value = '';
+				}else{
+					if(expiredDateInput != ''){
+						expiredDate.value = expiredDateInput;
+					}
+				}
+			}else{
+				
+				var DateInput = document.getElementsByName("ec_expiredDateInput[]");
+				var permanent = document.getElementsByName("ec_expiredDate_permanent[]");
+				for(i=0; i<permanent.length; i++){
+					if(permanent[i].checked){
+						if(DateInput[i].value != ''){
+							DateInput[i].value = '';
+						}
+					}
+				}
+			}
+		}
+		
+		function get_brandEndTime_permanent(f, brandEndTime){
+			var ec_brandEndTime = document.getElementById('ec_brandEndTime');
+			if(f.checked){
+				ec_brandEndTime.value = '';
+			}else{
+				if(brandEndTime != ''){
+					ec_brandEndTime.value = brandEndTime;
+				}
+			}
+		}
+		
+		//查询会员
+		function get_search_user(){
+			var user_name = $("#userName").val();
+			Ajax.call('merchants_users_list.php?is_ajax=1&act=get_user_name', "user_name="+user_name, user_nameResponse, "GET", "JSON");
+		}
+		
+		function user_nameResponse(result)
+		{
+		  if (result.error == 0)
+		  {
+			  document.getElementById('user_list').innerHTML = result.content;
+			  $(".select-list2").perfectScrollbar("destroy");
+			  $(".select-list2").perfectScrollbar();
+		  }
+		}
+	</script>
+</body>
+</html>

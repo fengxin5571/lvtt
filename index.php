@@ -1,5 +1,6 @@
 <?php
 //zend by QQ:2172298892
+
 function index_get_invoice_query()
 {
 	$sql = 'SELECT o.order_sn, o.invoice_no, s.shipping_code FROM ' . $GLOBALS['ecs']->table('order_info') . ' AS o' . ' LEFT JOIN ' . $GLOBALS['ecs']->table('shipping') . ' AS s ON s.shipping_id = o.shipping_id' . ' WHERE invoice_no > \'\' AND shipping_status = ' . SS_SHIPPED . ' ORDER BY shipping_time DESC LIMIT 10';

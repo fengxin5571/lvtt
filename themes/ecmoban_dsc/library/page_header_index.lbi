@@ -84,7 +84,7 @@
 <div class="nav">
     <div class="w1200">
         <div class="categorys home_categorys">
-            <div class="dt"><a href="{$url_categoryall}" target="_blank">全部商品分类</a></div>
+            <div class="dt"><a href="{$url_categoryall}" target="_blank">旅游项目分类</a></div>
             <div class="dd">
                 <div class="cata-nav" id="cata-nav">
                     <!--{foreach from=$categories_pro item=cat name=categories_pro}-->

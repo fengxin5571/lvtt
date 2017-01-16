@@ -4,6 +4,7 @@
         	<div class="tit"><a href="javascript:void(0);" data-url="index.php?act=main" data-param="index|main" target="workspace"><i class="nav_icon i_home"></i><h4>首页</h4></a></div>
         </div>
         {foreach from=$nav_top item=nav}
+       
         <div class="navLeftTab" id="adminNavTabs_{$nav.type}" style="display:none;">
             {foreach from=$nav.children item=menu key=k name=foo}
             {if !$menu.action}

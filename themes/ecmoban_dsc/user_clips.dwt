@@ -32,7 +32,7 @@
                 <div class="u-name"><a href="user.php?act=profile" class="ecsc-vip ecsc-vip{$rank.user_rank.rank_id}"><s></s></a><a href="user.php?act=profile" class="name"><em>{$rank.time_reminder}，</em>{$info.nick_name}</a></div>
                 <div class="u-growth">
                     <span class="tel">{if $info.mobile_phone}手机：{$info.mobile_phone}{else}<a href="user.php?act=profile">绑定手机</a>{/if}</span>
-                    <span class="email">邮箱：{if $info.email}{$info.email}{else}<a href="user.php?act=profile">绑定</a>{/if}</span>
+                    <!--<span class="email">邮箱：{if $info.email}{$info.email}{else}<a href="user.php?act=profile">绑定</a>{/if}</span>-->
                 </div>
             </div>
         </div>
@@ -161,7 +161,7 @@
                 </table>
             </div>
             <div class="user-item-temp user-item-temp3">
-                <div class="user-item-title">
+                <!--<div class="user-item-title">
                     <h3>帮助</h3>
                 </div>
                 <div class="user-help-list">
@@ -178,7 +178,7 @@
                         <div class="user-help-fore user-help-fore3"><i class="icon-help icon-help08"></i><a href="article.php?id=14" target="_blank">如何享受全国联保</a></div>
                         <div class="user-help-fore user-help-fore4"><i class="icon-help icon-help09"></i><a href="article.php?id=12" target="_blank">如何分辨原装电池</a></div>
                     </div>
-                </div>
+                </div>-->
             </div>
             {if $guess_goods}
             <div class="user-item-temp user-item-temp4">

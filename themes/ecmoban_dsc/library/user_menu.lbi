@@ -5,36 +5,36 @@
     <a href="./user.php" class="pre-home">个人主页</a>
 </div>
 <div id="menu">
-    <dl class="fore1">
+    <!--<dl class="fore1">
         <dt><i class="icon stretch-icon"></i><span>订单中心</span></dt>
         <dd {if $action eq 'order_list' || $action eq 'order_detail'}class="current"{/if}><a href="user.php?act=order_list" target="_self">我的订单</a></dd>
         <dd {if $action eq 'address_list' || $action eq 'address'}class="current"{/if}><a href="user.php?act=address_list" target="_self">收货地址</a></dd>
         <dd {if $action eq 'booking_list'}class="current"{/if}><a href="user.php?act=booking_list" target="_self">缺货登记</a></dd>
         <dd {if $action eq 'return_list' || $action eq 'return_detail'}class="current"{/if}><a href="user.php?act=return_list" target="_self">退换货订单</a></dd>
-    </dl>
+    </dl>-->
     <dl class="fore2">
         <dt><i class="icon stretch-icon"></i><span>会员中心</span></dt>
         <dd {if $action eq 'profile'}class="current"{/if}><a href="user.php?act=profile" target="_self">用户信息</a></dd>
         <dd {if $action eq 'account_safe'}class="current"{/if}><a href="user.php?act=account_safe" target="_self">账户安全</a></dd>
-        <dd {if $action eq 'account_bind'}class="current"{/if}><a href="user.php?act=account_bind" target="_self">账号绑定</a></dd>
+        <!--<dd {if $action eq 'account_bind'}class="current"{/if}><a href="user.php?act=account_bind" target="_self">账号绑定</a></dd>
 		<dd {if $action eq 'crowdfunding'}class="current"{/if}><a href="user.php?act=crowdfunding" target="_self">我的众筹</a></dd>
         <dd {if $action eq 'collection_list' || $action eq 'store_list'}class="current"{/if}><a href="user.php?act=collection_list" target="_self">我的收藏</a></dd>
         <dd {if $action eq 'focus_brand'}class="current"{/if}><a href="user.php?act=focus_brand" target="_self">关注品牌</a></dd>
         <dd {if $action eq 'message_list'}class="current"{/if}><a href="user.php?act=message_list" target="_self">我的留言</a></dd>
         <!-- {if $affiliate.on eq 1} -->
-        <dd {if $action eq 'affiliate'}class="current"{/if}><a href="user.php?act=affiliate" target="_self">我的推荐</a></dd>
+        <!--<dd {if $action eq 'affiliate'}class="current"{/if}><a href="user.php?act=affiliate" target="_self">我的推荐</a></dd>-->
         <!-- {/if} -->
-        <dd {if $action eq 'comment_list' || $action eq 'commented_view'}class="current"{/if}><a href="user.php?act=comment_list" target="_self">评论/晒单</a></dd>
+        <!--<dd {if $action eq 'comment_list' || $action eq 'commented_view'}class="current"{/if}><a href="user.php?act=comment_list" target="_self">评论/晒单</a></dd>
         <dd {if $action eq 'take_list'}class="current"{/if}><a href="user.php?act=take_list"> 我的提货</a></dd>
-        <dd {if $action eq 'complaint_list'}class="current"{/if} style="display:none"><a href="user.php?act=complaint_list"> 交易投诉</a></dd>
+        <dd {if $action eq 'complaint_list'}class="current"{/if} style="display:none"><a href="user.php?act=complaint_list"> 交易投诉</a></dd>-->
     </dl>
     <dl class="fore3{if $is_merchants eq 0} last{/if}">
         <dt><i class="icon stretch-icon"></i><span>账户中心</span></dt>
-        <dd {if $action eq 'bonus'}class="current"{/if}><a href="user.php?act=bonus" target="_self">我的红包</a></dd>
+        <!--<dd {if $action eq 'bonus'}class="current"{/if}><a href="user.php?act=bonus" target="_self">我的红包</a></dd>
         <dd {if $action eq 'coupons'}class="current"{/if}><a href="user.php?act=coupons" target="_self">优惠券</a></dd>
-        <dd {if $action eq 'track_packages'}class="current"{/if}><a href="user.php?act=track_packages" target="_self">跟踪包裹</a></dd>
+        <dd {if $action eq 'track_packages'}class="current"{/if}><a href="user.php?act=track_packages" target="_self">跟踪包裹</a></dd>-->
         <dd {if $action eq 'account_log' || $action eq 'account_detail' || $action eq 'account_raply' || $action eq 'account_deposit' || $action eq 'act_account'}class="current"{/if}><a href="user.php?act=account_log" target="_self">资金管理</a></dd>
-        <dd {if $action eq 'baitiao' || $action eq 'repay_bt'}class="current"{/if}><a href="user.php?act=baitiao" target="_self">我的白条</a></dd>
+        <!--<dd {if $action eq 'baitiao' || $action eq 'repay_bt'}class="current"{/if}><a href="user.php?act=baitiao" target="_self">我的白条</a></dd>-->
         
     </dl>
     {if $is_merchants > 0}

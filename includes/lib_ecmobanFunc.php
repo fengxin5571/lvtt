@@ -671,8 +671,7 @@ function get_merchants_steps_title_insert_update($fields_steps, $fields_titles, 
 		}
 	}
 }
-
-function get_fields_centent_info($id, $textFields, $fieldsDateType, $fieldsLength, $fieldsNotnull, $fieldsFormName, $fieldsCoding, $fieldsForm, $fields_sort, $will_choose, $webType = 'admin', $user_id = 0)
+function get_fields_centent_info($identity,$id, $textFields, $fieldsDateType, $fieldsLength, $fieldsNotnull, $fieldsFormName, $fieldsCoding, $fieldsForm, $fields_sort, $will_choose, $webType = 'admin', $user_id = 0)
 {
 	if (!empty($textFields)) {
 		$textFields = explode(',', $textFields);
@@ -696,9 +695,13 @@ function get_fields_centent_info($id, $textFields, $fieldsDateType, $fieldsLengt
 			$arr[$i + 1]['fieldsCoding'] = $fieldsCoding[$i];
 			$arr[$i + 1]['fields_sort'] = $fields_sort[$i];
 			$arr[$i + 1]['will_choose'] = $will_choose[$i];
-
+            
 			if (0 < $user_id) {
-				$sql = 'select ' . $textFields[$i] . ' from ' . $GLOBALS['ecs']->table('merchants_steps_fields') . ' where user_id = \'' . $user_id . '\'';
+			    if($identity ==3){
+			        $sql = 'select ' . $textFields[$i] . ' from ' . $GLOBALS['ecs']->table('merchants_steps_fields') . ' where user_id = \'' . $user_id . '\'';
+			    }else{
+			        $sql = 'select ' . $textFields[$i] . ' from ' . $GLOBALS['ecs']->table('merchants_steps_fields') . ' where user_id = \'' . $user_id . '\' AND identity='.$identity;
+			    }
 				$arr[$i + 1]['titles_centents'] = $GLOBALS['db']->getOne($sql);
 			}
 
@@ -753,8 +756,8 @@ function get_fields_centent_info($id, $textFields, $fieldsDateType, $fieldsLengt
 					else if ($otherForm[0] == 'textArea') {
 						if ($webType == 'root') {
 							$arr[$i + 1]['textAreaForm'] = get_textareaform_arr(explode(',', $arr[$i + 1]['titles_centents']));
-							$arr[$i + 1]['province_list'] = get_regions_steps(1, $arr[$i + 1]['textAreaForm']['country']);
-							$arr[$i + 1]['city_list'] = get_regions_steps(2, $arr[$i + 1]['textAreaForm']['province']);
+							$arr[$i + 1]['province_list'] = get_regions_steps(1, $arr[$i + 1]['textAreaForm']['country']);//获取省/直辖市
+							$arr[$i + 1]['city_list'] = get_regions_steps(2, $arr[$i + 1]['textAreaForm']['province']);//获取市
 							$arr[$i + 1]['district_list'] = get_regions_steps(3, $arr[$i + 1]['textAreaForm']['city']);
 						}
 					}
@@ -1080,7 +1083,7 @@ function get_merchants_septs_custom_info($table = '', $type = '', $id = '')
 	return $GLOBALS['db']->getRow($sql);
 }
 
-function get_root_merchants_steps_title($pid, $user_id)
+function get_root_merchants_steps_title($pid, $user_id,$identity=3)
 {
 	include_once ROOT_PATH . '/includes/cls_image.php';
 	$image = new cls_image($_CFG['bgcolor']);
@@ -1157,7 +1160,7 @@ function get_root_merchants_steps_title($pid, $user_id)
 		$arr[$key]['special_type'] = $row['special_type'];
 		$sql = 'select * from ' . $GLOBALS['ecs']->table('merchants_steps_fields_centent') . ' where tid = \'' . $row['tid'] . '\'';
 		$centent = $GLOBALS['db']->getRow($sql);
-		$cententFields = get_fields_centent_info($centent['id'], $centent['textFields'], $centent['fieldsDateType'], $centent['fieldsLength'], $centent['fieldsNotnull'], $centent['fieldsFormName'], $centent['fieldsCoding'], $centent['fieldsForm'], $centent['fields_sort'], $centent['will_choose'], 'root', $user_id);
+		$cententFields = get_fields_centent_info($identity,$centent['id'], $centent['textFields'], $centent['fieldsDateType'], $centent['fieldsLength'], $centent['fieldsNotnull'], $centent['fieldsFormName'], $centent['fieldsCoding'], $centent['fieldsForm'], $centent['fields_sort'], $centent['will_choose'], 'root', $user_id);
 		$arr[$key]['cententFields'] = get_array_sort($cententFields, 'fields_sort');
 
 		if ($row['steps_style'] == 1) {

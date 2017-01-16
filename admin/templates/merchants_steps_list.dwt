@@ -78,7 +78,7 @@
                                     </td>
                                     <td><div class="tDiv"><input name="sort_order" class="text w40" value="{$process.steps_sort}" onkeyup="listTable.editInput(this, 'edit_sort_order',{$process.id} )" type="text"></div></td>
                                     <td>
-									{if $process.id eq 1 || $process.id eq 5 || $process.id eq 7 || $process.id eq 9 || $process.id eq 4 || $process.id eq 12}
+									{if $process.id eq 1 || $process.id eq 5 || $process.id eq 7 || $process.id eq 9 || $process.id eq 4 || $process.id eq 12 ||$process.id eq 16 ||$process.id eq 15}
                                     	<div class="tDiv"><img src="images/yes.png" class="pl3" /></div>
 									{else}
                                     	<div class="tDiv">
