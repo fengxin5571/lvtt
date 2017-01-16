@@ -492,7 +492,6 @@ else {
 		}
 
 		$modules = array();
-
 		foreach ($modules as $key => $value) {
 			ksort($modules[$key]);
 		}

@@ -1,0 +1,50 @@
+<!--[if lte IE 9]>
+<script> 
+   (function() {
+     if (! 
+     /*@cc_on!@*/
+     0) return;
+     var e = "abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video".split(', ');
+     var i= e.length;
+     while (i--){
+         document.createElement(e[i])
+     } 
+})() 
+</script>
+<![endif]-->
+<header class="ecsc-head-layout w">
+    <div class="wrapper">
+        <div class="admin-logo">
+            <a href="./" class="logo"><img src="images/logo.png"  width='74'/></a>
+            <h1>导游中心</h1>
+        </div>
+        <div class="index-search-container"></div>
+        <div class="ecsc-admin">
+            <span>您好！<strong style="color: red;">{$smarty.session.guide_name}</strong> 欢迎您来到导游管理系统 </span>            
+            
+            <a href="privilege.php?act=modif">[账户设置]</a>
+			<a href="index.php?act=clear_cache">[清除缓存]</a>
+			<a href="privilege.php?act=logout">[退出]</a>
+                        
+            
+        </div>
+    </div>
+    <nav class="ecsc-nav">
+        <ul class="ecsc-nav-ul">
+        <li ectype="item" {if !$menu_select.action}class="current"{/if}><a href="./">首页</a></li>
+        {foreach from=$seller_menu item=menu}
+        {if $menu.url}
+        <li ectype="item" class="{if $menu.action eq $menu_select.action}current {/if}{if $menu.action eq '19_merchants_store' or $menu.action eq '18_batch_manage' or $menu.action eq '02_cat_and_goods'}w4{/if}{if $menu.action eq '03_promotion' or $menu.action eq '10_priv_admin'}w3{/if}{if $menu.action eq '05_banner' or $menu.action eq '08_members' or $menu.action eq '11_system'}w2{/if}">
+        	<a href="{$menu.url}">{$menu.label}</a>
+            <ul>
+                {foreach from=$menu.children item=child}
+                <li><a href="{$child.url}" {if $child.label eq '店铺可视化装修'}target="_blank"{/if}>{$child.label}</a></li>
+                {/foreach}
+            </ul>
+        </li>	
+        {/if}
+       	{/foreach}
+        </ul>
+        <div class="nav-current"></div>
+    </nav>
+</header>

@@ -196,16 +196,16 @@
                     	<div class="item_section item_section_frist">
                         	<div class="section_header">商城管理</div>
                             <div class="section_body">
-                            	<dl>
-                                	<dt>平台首页：</dt>
-                                    <dd><a href="{$ecs_url}" target="_blank">{$ecs_url}</a></dd>
-                                </dl>
                                 <dl>
                                 	<dt>平台后台：</dt>
                                     <dd><a href="{$ecs_url}admin" target="_blank">{$ecs_url}admin</a></dd>
                                 </dl>
                                 <dl>
-                                	<dt>入驻后台：</dt>
+                                	<dt>导游后台：</dt>
+                                    <dd><a href="{$ecs_url}guider" target="_blank">{$ecs_url}guider</a></dd>
+                                </dl>
+                                <dl>
+                                	<dt>供应商后台：</dt>
                                     <dd><a href="{$ecs_url}seller" target="_blank">{$ecs_url}seller</a></dd>
                                 </dl>
                                 <dl>

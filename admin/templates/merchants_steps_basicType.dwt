@@ -122,7 +122,7 @@
                     {/foreach}
                     </div>
 				{/if}
-			<div class="fl org">{$fields.formSpecial}</div>
+			</br><div class="fl org">{$fields.formSpecial}</div>
 			<div class="form_prompt" style="float:left;"></div>
 		</div>
 	</div>

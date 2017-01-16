@@ -28,6 +28,8 @@ define('ADMIN_PATH','admin');
 
 define('SELLER_PATH','seller');
 
+define('GUIDER_PATH', 'guider');
+
 define('CACHE_MEMCACHED',0);
 
 define('AUTH_KEY', 'this is a key');

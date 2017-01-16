@@ -1,0 +1,1 @@
+<div class="ecsc-path"><i class="icon-desktop"></i>导游管理中心<i class="icon-angle-right"></i>{if $ur_here}{$ur_here}{else}首页{/if}</div>

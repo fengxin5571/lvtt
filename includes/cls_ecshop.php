@@ -76,7 +76,18 @@ class ECS
 
 		return $this->get_domain() . $root;
 	}
-
+	
+   public  function guider_url(){
+       $curr = (strpos(PHP_SELF, GUIDER_PATH . '/') !== false ? preg_replace('/(.*)(' . GUIDER_PATH . ')(\\/?)(.)*/i', '\\1', dirname(PHP_SELF)) : dirname(PHP_SELF));
+       $root = str_replace('\\', '/', $curr);
+       
+       if (substr($root, -1) != '/') {
+           $root .= '/';
+       }
+       
+       return $this->get_domain() . $root;
+   }
+   
 	public function stores_url()
 	{
 		$curr = (strpos(PHP_SELF, STORES_PATH . '/') !== false ? preg_replace('/(.*)(' . STORES_PATH . ')(\\/?)(.)*/i', '\\1', dirname(PHP_SELF)) : dirname(PHP_SELF));

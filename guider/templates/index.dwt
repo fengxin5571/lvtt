@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>{include file ='library/guider_html_head.lbi'}</head>
+
+<body>
+{include file ='library/guider_header.lbi'}
+{include file ='library/url_here.lbi'}
+<div class="ecsc-layout">
+    <div class="site wrapper">
+		{include file ='library/guider_menu_user.lbi'}
+        <div class="ecsc-layout-right">
+            <div class="main-content" id="mainContent">
+                <div class="top-container">
+                    <div class="basic-info">
+                        <dl class="ecsc-seller-info">
+                            <dt class="seller-name">
+                                <h3>{$guider_info.guide_name}</h3>
+                                <h5>( 登录名：{$guider_info.login_name} )</h5>
+                            </dt>
+                            <dd class="store-logo">
+                                <p><img src="../{$guider_info.guide_qualification_phptosImg}" /></p>
+                            </dd>
+                            <dd class="seller-permission">平台游客账号：<strong>{$guider_info.user_name}</strong></dd>
+                            <dd class="seller-last-login">最后登录：<strong>{$guider_info.last_login}</strong></dd>
+                            <dd class="store-name">店铺名称：<a href="../merchants_store.php?merchant_id={$ru_id}" target="_blank">{$seller_info.shopName}</a></dd>
+                            <dd class="store-tishi list-items">
+                                <ul>
+                                    <li>待处理订单<em>({$order.shipped_deal})</em></li>
+                                    <li>当前优惠活动<em>({$favourable_count})</em></li>
+                                    <li>即将到期优惠活动<em>({$favourable_dateout_count})</em></li>
+                                    <li>退换货订单<em>({$new_repay})</em></li>
+                                    <li>待商品回复咨询<em>({$reply_count})</em></li>
+                                </ul>
+                            </dd>
+                        </dl>
+                        <div class="detail-rate">
+                            <h5> <strong>导游评分：</strong> 与行业相比 </h5>
+                            <ul>
+                                <li> 
+                                	描述相符<span class="credit">{$merch_cmt.cmt.commentRank.zconments.score}分</span> 
+                                    {if $merch_cmt.cmt.commentRank.zconments.is_status eq 1}
+                                    <span class="high"><i></i>高于</span> 
+                                    {elseif $merch_cmt.cmt.commentRank.zconments.is_status eq 2}
+                                    <span class="equal"><i></i>持平</span> 
+                                    {else}
+                                    <span class="low"><i></i>低于</span> 
+                                    {/if}
+                                </li>
+                                <li> 
+                                	服务态度<span class="credit">{$merch_cmt.cmt.commentServer.zconments.score}分</span>
+                                    {if $merch_cmt.cmt.commentServer.zconments.is_status eq 1}
+                                    <span class="high"><i></i>高于</span> 
+                                    {elseif $merch_cmt.cmt.commentServer.zconments.is_status eq 2}
+                                    <span class="equal"><i></i>持平</span> 
+                                    {else}
+                                    <span class="low"><i></i>低于</span> 
+                                    {/if}
+                                </li>
+                                <li> 
+                                	发货速度<span class="credit">{$merch_cmt.cmt.commentDelivery.zconments.score}分</span>
+                                    {if $merch_cmt.cmt.commentDelivery.zconments.is_status eq 1}
+                                    <span class="high"><i></i>高于</span> 
+                                    {elseif $merch_cmt.cmt.commentDelivery.zconments.is_status eq 2}
+                                    <span class="equal"><i></i>持平</span> 
+                                    {else}
+                                    <span class="low"><i></i>低于</span> 
+                                    {/if}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="seller-cont">
+                    <div class="container_left">
+                        
+                        <div class="container type-a">
+                            <div class="hd">
+                                <h3>交易提示</h3>
+                                <h5>您需要立即处理的交易订单</h5>
+                            </div>
+                            <div class="content">
+                                <dl class="focus">
+                                    <dt>近期售出：</dt>
+                                    <dd><a href="order.php?act=list" class="num">交易中的订单 <strong id="nc_progressing">{$order.shipped_deal}</strong> 单</a></dd>
+                                </dl>
+                                <ul>
+                                	<li>待确定<a href="order.php?act=list&composite_status={$status.unconfirmed}" target="_blank">({$order.unconfirmed})</a></li>
+                                    <li>待付款<a href="order.php?act=list&composite_status={$status.await_pay}" target="_blank">({$order.await_pay})</a></li>
+                                    <li>待发货<a href="order.php?act=list&composite_status={$status.await_ship}" target="_blank">({$order.await_ship})</a></li>
+                                    <li>已完成<a href="order.php?act=list&composite_status={$status.finished}" target="_blank">({$order.finished})</a></li>
+                                    <li>缺货登记<a href="goods_booking.php?act=list_all" target="_blank">({$booking_goods})</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="container type-a h400">
+                            <div class="hd">
+                                <h3>单品销售排名</h3>
+                                <h5>掌握30日内最热销的商品及时补充货源</h5>
+                            </div>
+                            <div class="content">
+                                <table class="ecsc-default-table rank">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">排名</th>
+                                        <th width="80%">商品信息</th>
+                                        <th width="10%">销量(件)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {foreach from=$goods_info item=vo name=goods_info}
+                                <tr class="bd-line2">
+                                    <td class="tc">{$smarty.foreach.goods_info.iteration}</td>
+                                    <td class="tl"><a target="_blank" href="../goods.php?id={$vo.goods_id}" class="goods_name"> {$vo.goods_name}</a></td>
+                                    <td class="tc">{$vo.goods_shipping_total}</td>
+                                </tr>
+                                {/foreach}
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="container type-a h300">
+                            <div class="hd">
+                                <h3>销售情况统计</h3>
+                                <h5>按周期统计商家店铺的订单量和订单金额</h5>
+                            </div>
+                            <div class="content">
+                                <table class="ecsc-default-table count">
+                                <thead>
+                                    <tr>
+                                        <th class="w80">项目</th>
+                                        <th>订单量(笔)</th>
+                                        <th class="w100">订单金额(元)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bd-line2">
+                                        <td>昨日销量</td>
+                                        <td>{$yseterday_shipping_info.order_total}</td>
+                                        <td>{$yseterday_shipping_info.money_total}</td>
+                                    </tr>
+                                    <tr class="bd-line2">
+                                        <td>月销量</td>
+                                        <td>{$month_shipping_info.order_total}</td>
+                                        <td>{$month_shipping_info.money_total}</td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container_right">
+                        <div class="container type-b">
+                            <div class="hd">
+                                <h3>导游帮助</h3>
+                                <h5></h5>
+                            </div>
+                            <div class="content">
+                                <ul>
+                                    {foreach from=$articles item=vo}
+                                    <li><a target="_blank" href="../article.php?id={$vo.article_id}" title="{$vo.title}">{$vo.title}</a></li>
+                                    {/foreach}
+                                </ul>
+                                <dl>
+                                    <dt>联系方式</dt>
+                                    <dd>电话：{$guider_info.contactPhone}</dd>
+                                    <dd>邮箱：{$guider_info.contactEmail}</dd>
+                                    
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file ='library/guider_footer.lbi'}
+{insert_scripts files="jquery.purebox.js"}
+</body>
+</html>

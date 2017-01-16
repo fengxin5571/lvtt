@@ -1,0 +1,15 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>导游中心{if $ur_here} - {$ur_here}{/if}</title>
+{insert_scripts files="../js/jquery-1.9.1.min.js,../js/jquery.json.js,../js/transport_jquery.js,../js/utils.js,../js/region.js,listtable.js,common.js,respond.src.js,validator.js,seller.js,jquery.poshytip.js,selectzone.js,start_up.js,perfect-scrollbar.min.js"}
+<script type="text/javascript" src="../js/calendar.php?lang={$cfg_lang}"></script>
+<link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/general.css" />
+<link rel="stylesheet" type="text/css" href="../js/calendar/calendar.min.css" />
+<link href="css/perfect-scrollbar.min.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+//这里把JS用到的所有语言都赋值到这里
+{foreach from=$lang.js_languages key=key item=item}
+var {$key} = "{$item}";
+{/foreach}
+</script>

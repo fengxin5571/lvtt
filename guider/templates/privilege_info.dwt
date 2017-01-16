@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>{include file ='library/guider_html_head.lbi'}</head>
+
+<body>
+{include file ='library/guider_header.lbi'}
+{include file ='library/url_here.lbi'}
+<div class="ecsc-layout">
+    <div class="site wrapper">
+		{include file ='library/guider_menu_user.lbi'}
+		<div class="ecsc-layout-right">
+            <div class="main-content" id="mainContent">
+				{include file ='library/seller_menu_tab.lbi'}
+                <div class="ecsc-form-default">
+                    <form id="add_form" name="theForm" action="#" method="post" onsubmit="return validate();">
+						<table width="90%" class="table_item">
+						  <tr>
+							<td class="label">{$lang.require_field}&nbsp;{$lang.user_name}：</td>
+							<td>
+							  <input type="text" name="user_name" maxlength="20" value="{$guider.login_name|escape}" size="34" class="text text_2"/>
+							</td>
+						  </tr>
+						  <tr>
+							<td class="label">{$lang.require_field}&nbsp;{$lang.email}：</td>
+							<td>
+							  <input type="text" name="email" value="{$guider.contactEmail|escape}" size="34" class="text text_2"/>
+							</td>
+						  </tr>
+						 
+						  
+						  <tr>
+							<td class="label">{$lang.require_field}&nbsp;{$lang.old_password}：</td>
+							<td>
+							  <input type="password" name="old_password" size="34" class="text text_2"/>
+							  <label class="blue_label" id="passwordNotic">{$lang.password_notic}</label>
+							</td>
+						  </tr>
+						  <tr>
+							<td class="label">{$lang.require_field}&nbsp;{$lang.new_password}：</td>
+							<td>
+							  <input type="password" name="new_password" maxlength="32" size="34" class="text text_2"/>
+							</td>
+						  </tr>
+						  <tr>
+							<td class="label">{$lang.require_field}&nbsp;{$lang.pwd_confirm}</td>
+							<td>
+							  <input type="password" name="pwd_confirm" value="" size="34" class="text text_2"/>
+							</td>
+						  </tr>
+						  
+						  
+						   {if $select_role}
+							<tr>
+						   <td class="label">{$lang.select_role}：</td>
+							<td>
+							  <select name="select_role" class="select">
+								<option value="">{$lang.select_please}</option>
+								{foreach from=$select_role item=list}
+								<option value="{$list.role_id}" {if $list.role_id eq $user.role_id} selected="selected" {/if} >{$list.role_name}</option>
+								{/foreach}
+							  </select>
+							</td>
+						  </tr>
+						  {/if}
+						  
+						  <tr class="no-line">
+							<td class="label">&nbsp;</td>
+							<td class="pt10 pb20">
+							  <input type="submit" value="{$lang.button_submit}" class="button fl" />
+							  <input type="reset" value="{$lang.button_reset}" class="button button_reset fl" />
+							  <input type="hidden" name="act" value="{$form_act}" />
+							  <input type="hidden" name="token" value="{$token}" />
+							  <input type="hidden" name="user_id" value="{$guider.user_id}" />
+							  <input type="hidden" name="id" value="{$guider.guide_id}" />
+							</td>
+						  </tr>
+						</table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file ='library/guider_footer.lbi'}
+<script type="text/javascript">
+var action = "{$action}";
+function validate()
+{
+  validator = new Validator("theForm");
+  validator.password = function (controlId, msg)
+  {
+    var obj = document.forms[this.formName].elements[controlId];
+    obj.value = Utils.trim(obj.value);
+    if (!(obj.value.length >= 6 && /\d+/.test(obj.value) && /[a-zA-Z]+/.test(obj.value)))
+    {
+      this.addErrorMsg(msg);
+    }
+
+  }
+
+  validator.required("user_name", user_name_empty);
+  validator.required("email", email_empty, 1);
+  validator.isEmail("email", email_error);
+
+  if (action == "add")
+  {
+    if (document.forms['theForm'].elements['password'])
+    {
+      validator.password("password", password_invaild);
+      validator.eqaul("password", "pwd_confirm", password_error);
+    }
+  }
+  if (action == "edit" || action == "modif")
+  {
+    if (document.forms['theForm'].elements['old_password'].value.length > 0)
+    {
+      validator.password("new_password", password_invaild);
+      validator.eqaul("new_password", "pwd_confirm", password_error);
+    }
+  }
+
+  return validator.passed();
+}
+</script>
+</body>
+</html>
