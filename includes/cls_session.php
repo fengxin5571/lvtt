@@ -208,7 +208,7 @@ class cls_session
 			return false;
 		}
 	}
-
+    
 	public function destroy_session()
 	{
 		$GLOBALS['_SESSION'] = array();

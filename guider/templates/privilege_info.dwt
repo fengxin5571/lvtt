@@ -101,16 +101,7 @@ function validate()
   validator.required("user_name", user_name_empty);
   validator.required("email", email_empty, 1);
   validator.isEmail("email", email_error);
-
-  if (action == "add")
-  {
-    if (document.forms['theForm'].elements['password'])
-    {
-      validator.password("password", password_invaild);
-      validator.eqaul("password", "pwd_confirm", password_error);
-    }
-  }
-  if (action == "edit" || action == "modif")
+  if (action == "modif")
   {
     if (document.forms['theForm'].elements['old_password'].value.length > 0)
     {

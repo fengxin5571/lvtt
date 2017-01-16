@@ -140,7 +140,7 @@ else{
            $db->autoExecute($ecs->table("merchants_steps_fields"), $email,'UPDATE','user_id='.$user_id.' AND identity=1 ');
        }
        if ($pwd_modified && ($_REQUEST['act'] == 'update_self')) {
-           $sess->delete_spec_admin_session($_SESSION['guide_id']);
+           $sess->destroy_session();//密码更新后清除导游登录seesion
            $msg = $_LANG['edit_password_succeed'];
        }
        else {
@@ -180,7 +180,7 @@ else{
     
         exit(json_encode($result));
     }
-    else if ($_REQUEST['act'] == 'modif') {//个人设置
+    else if ($_REQUEST['act'] == 'modif') {//导游账户设置
         $sql = 'SELECT code FROM ' . $ecs->table('plugins');
         $rs = $db->query($sql);
         
@@ -196,6 +196,7 @@ else{
         $guider=get_guide_info($_SESSION['guide_id']);
         $smarty->assign('guider',$guider);
         $smarty->assign('lang', $_LANG);
+        $smarty->assign('action',modif);
         $smarty->assign('ur_here', $_LANG['guider_modif_info']);
         $smarty->assign('form_act', 'update_self');
         assign_query_info();

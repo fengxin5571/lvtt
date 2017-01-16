@@ -120,7 +120,6 @@ else if (($_REQUEST['act'] == 'insert_guide') || ($_REQUEST['act'] == 'update_gu
     $info['guides_message'] = $guides_message;
     $info['is_show'] = $is_show;
     if ($_REQUEST['act'] == 'update_guide') {//如果是更新就更新反之新增
-        
         $GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('merchants_steps_fields'), $parent, 'UPDATE', 'user_id = \'' . $user_id . '\' AND identity = 1');
         $GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('guide_shop_information'), $info, 'UPDATE', 'user_id = \'' . $user_id . '\'');
     }else{
@@ -147,7 +146,7 @@ else if (($_REQUEST['act'] == 'insert_guide') || ($_REQUEST['act'] == 'update_gu
         
         $info['steps_audit'] = 1;
         $info['user_id'] =$user_id;
-        
+        $info['add_time']=gmtime();
         $GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('guide_shop_information'), $info, 'INSERT');
     }
     if($info['guide_audit'] == 1 && !empty($parent['contactEmail'])){//审核通过后发送导游登录账号密码到其邮箱

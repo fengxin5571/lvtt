@@ -22,7 +22,8 @@
                             </dd>
                             <dd class="seller-permission">平台游客账号：<strong>{$guider_info.user_name}</strong></dd>
                             <dd class="seller-last-login">最后登录：<strong>{$guider_info.last_login}</strong></dd>
-                            <dd class="store-name">店铺名称：<a href="../merchants_store.php?merchant_id={$ru_id}" target="_blank">{$seller_info.shopName}</a></dd>
+                            <dd class="sguider-add-time">加入时间：<strong>{$guider_info.add_time}</strong></dd>
+                            
                             <dd class="store-tishi list-items">
                                 <ul>
                                     <li>待处理订单<em>({$order.shipped_deal})</em></li>

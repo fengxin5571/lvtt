@@ -1,7 +1,7 @@
 <footer class="footer">
 	<p>
 	<!-- {foreach name=nav_bottom_list from=$navigator_list.bottom item=nav} -->
-    <a href="{$nav.url}" {if $nav.opennew eq 1} target="_blank" {/if}>{$nav.name}</a> 
+    <a href="../{$nav.url}" {if $nav.opennew eq 1} target="_blank" {/if}>{$nav.name}</a> 
                 <!-- {if !$smarty.foreach.nav_bottom_list.last} --> 
                 | 
                 <!-- {/if} --> 

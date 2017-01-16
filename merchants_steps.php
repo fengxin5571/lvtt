@@ -295,6 +295,7 @@ if (!$smarty->is_cached('merchants_steps.dwt')) {
 		          $parent['user_id'] = $guide_fields['user_id'];
 		          $parent['guide_name'] = $guide_fields['contactName'];
 		          $parent['steps_audit'] = 1;
+		          $parent['add_time'] = gmtime();
 		          $db->autoExecute($ecs->table('guide_shop_information'), $parent,'INSERT');
 		        }
 		        $Location = 'merchants_steps.php?deg=guide';

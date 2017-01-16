@@ -507,6 +507,7 @@ function get_guide_info($guide_id){
     $arr=$GLOBALS['db']->getRow($sql);
     foreach ($arr as $key=>$val){
         $key =='last_login' ?$arr[$key]=local_date('Y-m-d H:i:s', $val):$arr;
+        $key =='add_time'   ?$arr[$key]=local_date('Y-m-d H:i:s', $val):$arr;
     }
     return $arr;
 }
